@@ -54,8 +54,8 @@ function main() {
       canvasContainer.appendChild(canvas);
 
       var gameInfoContainer = htmlElementGenerator('section','','game-info-container');
-      var lifeContainer = htmlElementGenerator('div', '','lifes');
-      lifeContainer.appendChild(htmlElementGenerator('span','Lifes: ','label'));
+      var lifeContainer = htmlElementGenerator('div', '','lives');
+      lifeContainer.appendChild(htmlElementGenerator('span','Lives: ','label'));
       lifeContainer.appendChild(htmlElementGenerator('span','','value'));
       
       var timeContainer = htmlElementGenerator('div','','time');
