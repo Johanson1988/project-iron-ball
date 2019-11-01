@@ -2,15 +2,13 @@
 function Platform (canvas, lives) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
-    this.x = 0;
-    this.y = 0;
+    this.x = 455; //half of totalCanvasSize - half of platform size;
+    this.y = 420;
     this.lives = 5;
     this.points = 0;
-    this.size = null;
-    this.sectionSize = null;
+    this.size = 90;
+    this.sectionSize = 30; //size divided by 3 so 3 sections
     this.color = 'red';
-    this.initPos = null;
-
-
-
+    this.initPos = {x: 455, y: 420};
 }
+

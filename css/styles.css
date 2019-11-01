@@ -13,14 +13,21 @@ html {
   }
 
 /* Testing stage CSS */
-
 div {
   border: 1px solid black;
 }
 
+main {
+  border: 5px dotted darkblue;
+}
+
 div.canvas-container {
   border: 3px solid orange;
+  height: 450px;
+  width: 1000px;
+  margin: 0 auto;
 }
+
 section.game-info-container {
   border: 3px solid brown;
 }
