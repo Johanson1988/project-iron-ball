@@ -32,9 +32,7 @@ function main() {
     splashScreen.appendChild(topScores);
 
     newGame.addEventListener('click', function() {
-        removeSplashScreen();
-        buildGameScreen();
-
+        startGame();
       });
     
 
@@ -75,9 +73,12 @@ function main() {
       gameContainer.appendChild(gameInfoContainer);
       
       document.body.appendChild(gameContainer);
+      return gameContainer;
   }
 
-  function removeGameScreen() {}
+  function removeGameScreen() {
+      
+  }
 
     
   // -- game over screen & restart button
@@ -89,7 +90,10 @@ function main() {
     
   // -- Setting the game state 
 
-  function startGame() {}
+  function startGame() {
+    removeSplashScreen();
+    var gameScreen = buildGameScreen();
+  }
 
   function gameOver() {}
 
