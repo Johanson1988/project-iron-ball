@@ -21,7 +21,6 @@ Platform.prototype.setDirection = function(direction) {
     // +1 right  -1 left
     if (direction === 'left') this.direction = -1;
     else if (direction === 'right') this.direction = 1;
-    console.log(this.direction);
     this.move();
   };
 
@@ -37,7 +36,6 @@ var screenRightBorder = this.canvas.width;
 
 if ((this.x + this.direction * this.speed) > screenRightBorder-this.width){
   this.x = screenRightBorder - this.width;
-  console.log('hello');
 }
 //if it reaches the border it will not escape the screen
 else if (this.x < screenLeftBorder) this.x = 0;

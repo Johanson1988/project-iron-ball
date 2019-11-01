@@ -28,7 +28,10 @@ Game.prototype.start = function() {
 
   // Create a new platform and ball for the current game
   this.platform = new Platform(this.canvas, 5);
-  this.ball = {};
+  this.ball = new Ball(
+    this.canvas,
+    this.platform.x+this.platform.width/2,
+    100);
 
     
   // Add event listener for moving the player
@@ -54,6 +57,7 @@ Game.prototype.startLoop = function () {
     this.platform.handleScreenCollision();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.platform.draw();
+    this.ball.draw();
 
     window.requestAnimationFrame(loop);
   }.bind(this);
