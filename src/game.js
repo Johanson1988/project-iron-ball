@@ -27,20 +27,39 @@ Game.prototype.start = function() {
   this.canvas.setAttribute('height', this.containerHeight);
 
   // Create a new platform and ball for the current game
-  this.platform = {};
+  this.platform = new Platform(this.canvas, 5);
   this.ball = {};
 
     
   // Add event listener for moving the player
-  // ..
-          
+  this.handleKeyDown = function(event)  {
+    if (event.key === 'ArrowLeft') {
+      this.platform.setDirection('left');  
+    } 
+    else if (event.key === 'ArrowRight') {
+      this.platform.setDirection('right');
+    }  
+  };
+
+  document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
+  
   // Start the canvas requestAnimationFrame loop
   this.startLoop();
 };
 
 
 
-Game.prototype.startLoop = function () {} ;
+Game.prototype.startLoop = function () {
+  var loop = function() {
+    this.platform.handleScreenCollision();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.platform.draw();
+
+    window.requestAnimationFrame(loop);
+  }.bind(this);
+
+  window.requestAnimationFrame(loop);
+} ;
 Game.prototype.checkCollisions = function () {};
 Game.prototype.clearCanvas = function () {};
 Game.prototype.updateCanvas = function () {};

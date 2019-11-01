@@ -27,6 +27,7 @@ function main() {
     var title = htmlElementGenerator('h1','IronBall');
     var newGame = htmlElementGenerator('button','NEW GAME');
     var topScores = htmlElementGenerator('button', 'TOP SCORES');
+
     splashScreen.appendChild(title);
     splashScreen.appendChild(newGame);
     splashScreen.appendChild(topScores);
@@ -94,6 +95,7 @@ function main() {
     removeSplashScreen();
     game = new Game();
     game.gameScreen = buildGameScreen();
+    game.start();
   }
 
   function gameOver() {}
