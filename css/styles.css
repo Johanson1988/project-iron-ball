@@ -12,70 +12,32 @@ html {
     padding: 0;
   }
 
-  /* ---- typography ---- */
+/* Testing stage CSS */
 
-body {
-  color: #111;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 147%;
+div {
+  border: 1px solid black;
 }
 
-p {
-  margin: 0;
+div.canvas-container {
+  border: 3px solid orange;
+}
+section.game-info-container {
+  border: 3px solid brown;
 }
 
-
-
-/* ---- layout ---- */
-
-html, body {
-  height: 100%;
+div.lives {
+  border: 1px solid red;
 }
 
-.container {
-  margin: 0 20px;
+div.time {
+  border: 1px solid blue;  
 }
 
-@media (min-width: 768px) {
-  .container {
-    max-width: 728px;
-    margin: 0 auto;
-  }
+div.points {
+  border: 1px solid green;
 }
 
-
-/* ---- components ---- */
-
-.game {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.game header {
-  height: 50px;
-  display: flex;
-  align-items: center;
-}
-
-.game .lives {
-  flex: 1;
-}
-
-.game .score {
-  flex: 1;
-}
-
-.game .label {
-  font-weight: bold;
-}
-
-.game .value {
-  font-style: italic;
-}
-
-.game .canvas-container {
-  flex: 1;
+.game-info-container {
+  display:flex;
+  justify-content: space-evenly;
 }
