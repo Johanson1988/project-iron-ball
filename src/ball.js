@@ -5,7 +5,7 @@ function Ball (canvas,x,y) {
     this.ctx = canvas.getContext('2d');
     this.x = x; //For the first ball should platform.x + 45, platform.y;
     this.y = y; 
-    this.radius = 30;
+    this.radius = 10;
     this.speed = 10;
     this.color = 'blue';
     this.launched = false;
@@ -17,7 +17,7 @@ function Ball (canvas,x,y) {
 Ball.prototype.draw = function() {
     this.ctx.beginPath();
     this.ctx.fillStyle = this.color;
-    this.ctx.arc(this.x, this.y, 10, 0, (Math.PI) * 2);
+    this.ctx.arc(this.x, this.y, this.radius, 0, (Math.PI) * 2);
     this.ctx.fill();
     this.ctx.closePath();
 }
@@ -69,19 +69,16 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
     var screenRightBorder = this.canvas.width;
     //If ball touches left wall
 
-    if (pointInCircle(-this.radius+10,this.y, this.x,this.y, this.radius)) {
+    if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
         this.direction = this.bounce('left', this.direction);
-        console.log('touched left wall',-this.radius+10,'ball:',this.x, this.y);
     }
     //if ball touches right wall
-    else if (pointInCircle(screenRightBorder+this.radius-10,this.y, this.x,this.y, this.radius)) {
+    else if (pointInCircle(screenRightBorder,this.y, this.x,this.y, this.radius)) {
         this.direction = this.bounce('right', this.direction);
-        console.log('touched right wall',screenRightBorder+this.radius-10,'ball:',this.x);
     }
     //If ball touches top wall
-    else if (pointInCircle(this.x,-this.radius+10, this.x,this.y, this.radius)) {
+    else if (pointInCircle(this.x,0, this.x,this.y, this.radius)) {
         this.direction = this.bounce('top', this.direction);
-        console.log('touched top wall',this.x,-this.radius+10,'ball:',this.x, this.y);
     }
     //If touches platform
     else if ((this.y === platformY) && (this.x >= platformX) && (this.x <= platformX + platformSize)) {
