@@ -31,17 +31,16 @@ Game.prototype.start = function() {
   this.ball = new Ball(
     this.canvas,
     this.platform.x+this.platform.width/2,
-    100);
+    this.platform.y-10);
 
     
   // Add event listener for moving the player
   this.handleKeyDown = function(event)  {
     if (event.key === 'ArrowLeft') {
       this.platform.setDirection('left');  
-    } 
-    else if (event.key === 'ArrowRight') {
+    }else if (event.key === 'ArrowRight') {
       this.platform.setDirection('right');
-    }  
+    }else if (event.keyCode === 32) this.ball.launchBall() ;  
   };
 
   document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -55,6 +54,8 @@ Game.prototype.start = function() {
 Game.prototype.startLoop = function () {
   var loop = function() {
     this.platform.handleScreenCollision();
+    this.ball.handleWallCollisions();
+    this.ball.updatePosition(this.platform.x+this.platform.width/2);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.platform.draw();
     this.ball.draw();

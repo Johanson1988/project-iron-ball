@@ -3,7 +3,7 @@ function Platform (canvas, lives) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     this.x = 455; //half of totalCanvasSize - half of platform size;
-    this.y = 300; //420 final value
+    this.y = 380; //420 final value
     this.speed = 10;
     this.lives = 5;
     this.points = 0;
@@ -26,7 +26,6 @@ Platform.prototype.setDirection = function(direction) {
 
 Platform.prototype.move = function() {
   this.x += this.direction * this.speed;
-  console.log(this.x, this.y);
 };
 
 Platform.prototype.handleScreenCollision = function() {
@@ -48,12 +47,14 @@ Platform.prototype.removeLife = function() {
 };
 
 Platform.prototype.draw = function() {
-    this.ctx.fillStyle = this.color;
-    // fillRect(x, y, width, height)
-    this.ctx.fillRect(
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
-  };
+  this.ctx.beginPath();
+  this.ctx.fillStyle = this.color;
+  // fillRect(x, y, width, height)
+  this.ctx.fillRect(
+    this.x,
+    this.y,
+    this.width,
+    this.height
+  );
+  this.ctx.closePath();
+};
