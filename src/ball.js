@@ -11,7 +11,7 @@ function Ball (canvas,x,y) {
     this.launched = false;
     this.stop = false; //testing option
     //will add random to be launch to one direction or other
-    this.direction = 'north-west';
+    this.direction = 'north-east';
 }
 
 Ball.prototype.draw = function() {
@@ -59,7 +59,7 @@ Ball.prototype.updatePosition = function (platformNewX) {
     }
 }
 
-Ball.prototype.handleWallCollisions = function() {
+Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize) {
     function pointInCircle(x, y, cx, cy, radius) {
         //x,y points to check
         //cx, cy points from the circle
@@ -67,19 +67,47 @@ Ball.prototype.handleWallCollisions = function() {
         return distancesquared <= radius * radius;
       }
     var screenRightBorder = this.canvas.width;
-      console.log(this.x,this.y);
     //If ball touches left wall
 
     if (pointInCircle(-this.radius+10,this.y, this.x,this.y, this.radius)) {
-        this.stop = true;
+        this.direction = this.bounce('left', this.direction);
+        console.log('touched left wall',-this.radius+10,'ball:',this.x, this.y);
     }
     //if ball touches right wall
-    if (pointInCircle(screenRightBorder+this.radius-10,this.y, this.x,this.y, this.radius)) {
-        this.stop = true;
+    else if (pointInCircle(screenRightBorder+this.radius-10,this.y, this.x,this.y, this.radius)) {
+        this.direction = this.bounce('right', this.direction);
+        console.log('touched right wall',screenRightBorder+this.radius-10,'ball:',this.x);
     }
     //If ball touches top wall
-    if (pointInCircle(this.x,-this.radius+10, this.x,this.y, this.radius)) {
-        this.stop = true;
+    else if (pointInCircle(this.x,-this.radius+10, this.x,this.y, this.radius)) {
+        this.direction = this.bounce('top', this.direction);
+        console.log('touched top wall',this.x,-this.radius+10,'ball:',this.x, this.y);
+    }
+    //If touches platform
+    else if ((this.y === platformY) && (this.x >= platformX) && (this.x <= platformX + platformSize)) {
+        if (pointInCircle(platformX, platformY, platformX, this.y, this.radius)) {
+            this.direction = this.bounce('platform', this.direction);
+        }
     }
 }
 
+Ball.prototype.bounce = function (bouncedFrom, direction) {
+    switch (bouncedFrom) {
+        case 'top':
+            if (direction === 'north-east') return 'south-east';
+            if (direction === 'north-west') return 'south-west';
+            break;
+        case 'right':
+            if (direction === 'north-east') return 'north-west';
+            if (direction === 'south-east') return 'south-west';
+            break;
+        case 'platform':
+            if (direction === 'south-east') return 'north-east';
+            if (direction === 'south-west') return 'north-west';
+            break;
+        case 'left':
+            if (direction === 'north-west') return 'north-east';
+            if (direction === 'south-west') return 'south-east';
+            break;
+    }
+}

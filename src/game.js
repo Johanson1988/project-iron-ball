@@ -54,7 +54,7 @@ Game.prototype.start = function() {
 Game.prototype.startLoop = function () {
   var loop = function() {
     this.platform.handleScreenCollision();
-    this.ball.handleWallCollisions();
+    this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
     this.ball.updatePosition(this.platform.x+this.platform.width/2);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.platform.draw();
