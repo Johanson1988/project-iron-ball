@@ -7,6 +7,7 @@ function Game () {
     this.gameIsOver = false;
     this.ball = null;
     this.gameScreen = null;
+    this.bricksArray = [];
 }
 
 Game.prototype.start = function() {
@@ -31,8 +32,19 @@ Game.prototype.start = function() {
   this.ball = new Ball(
     this.canvas,
     this.platform.x+this.platform.width/2,
-    this.platform.y-10);
+    this.platform.y-10,
+    random(-3,3),
+    random(0,-3));
 
+  //Create bricks
+  var totalWidth = random(5,20);
+  var brickGap = 3;
+  for (var i=0;i<=5;i++) {
+    var width = random(30,90);
+    var brick = new Brick(this.canvas, totalWidth, 80, width);
+    totalWidth += brickGap + brick.width;
+    this.bricksArray.push(brick);
+  }
     
   // Add event listener for moving the player
   this.handleKeyDown = function(event)  {
@@ -59,6 +71,9 @@ Game.prototype.startLoop = function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.platform.draw();
     this.ball.draw();
+    this.bricksArray.forEach(function(brick){
+      brick.draw();
+    });
 
     window.requestAnimationFrame(loop);
   }.bind(this);

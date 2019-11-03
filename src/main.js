@@ -12,6 +12,10 @@ function htmlElementGenerator(elementTag,innerCode,elementClass,elementId) {
         return element;
     }else console.log('Element tag not valid');
 }
+function random(min,max) {
+  var num = (Math.random()*(max-min)) + min;
+  return num;
+}
 // Runs on initial start and contains calls all other functions that manage the game
 function main() {
   var game; // instance of the Game
