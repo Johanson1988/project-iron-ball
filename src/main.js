@@ -78,15 +78,33 @@ function main() {
       gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
 
       var scoreContainer = htmlElementGenerator('div','','final-score');
-      scoreContainer.appendChild(htmlElementGenerator('span','Your Score', 'label'));
+      scoreContainer.appendChild(htmlElementGenerator('span','Your Score:', 'label'));
       scoreContainer.appendChild(htmlElementGenerator('span','','value'));
       gameOverContainer.appendChild(scoreContainer);
+
+      
 
       var nameForm = document.createElement('form');
       nameForm.innerHTML = `<label for="name">Nickname</label>
       <input type='text' name='name'></input>
       <button>Submit</button>`;
       gameOverContainer.appendChild(nameForm);
+
+      var gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
+      var playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
+      gameOverButtonsContainer.appendChild(playAgainButton);
+      var returnMainButton = htmlElementGenerator('button','Return to main screen','return-main-btn');
+      gameOverButtonsContainer.appendChild(returnMainButton);
+      gameOverContainer.appendChild(gameOverButtonsContainer);
+
+      playAgainButton.addEventListener('click', function() {
+        console.log('pressed play again');
+      });
+
+      returnMainButton.addEventListener('click', function() {
+        gameContainer.remove();
+        buildGameScreen();
+      });
 
       gameContainer.appendChild(canvasContainer);
       gameContainer.appendChild(gameInfoContainer);

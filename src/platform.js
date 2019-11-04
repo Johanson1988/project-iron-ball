@@ -71,6 +71,9 @@ Platform.prototype.updatePoints = function() {
   var points = document.querySelector('.points .value');
   points.innerHTML = this.points;
 }
+Platform.prototype.getPoints = function() {
+  return this.points;
+}
 Platform.prototype.livesRemaining = function () {
   if (this.lives > 0) return true;
   else return false;

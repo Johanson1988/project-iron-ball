@@ -110,17 +110,15 @@ Game.prototype.startLoop = function () {
 
 
 Game.prototype.setGameOver = function () {
-  this.showGameOverScreen();
-  console.log('game over');
-  //ask name to save score
-  //ask if you wanna play again
-  //goback to main menu
+  this.buildGameOverScreen();
 };
-Game.prototype.showScore = function () {};
+
 Game.prototype.removeGameScreen = function () {};
-Game.prototype.showGameOverScreen = function () {
+Game.prototype.buildGameOverScreen = function () {
   var gameOverScreen = document.querySelector('.game-over');
   gameOverScreen.classList.remove('game-over-hidden');
+  var scores = document.querySelector('.final-score .value');
+  scores.innerHTML = this.platform.getPoints();
 
 };
 
