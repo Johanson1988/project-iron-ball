@@ -70,7 +70,7 @@ Ball.prototype.bounce = function (bouncedFrom) {
 }
 
 Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,radiusBall) {
-    //extraced https://stackoverflow.com/questions/36523507/detection-and-response-ball-to-wall-collision-inside-any-polygon
+    //based from https://stackoverflow.com/questions/36523507/detection-and-response-ball-to-wall-collision-inside-any-polygon
     // calc delta distance: source point to line start
     var dx=xBall-xInit;
     var dy=yBall-yInit;
@@ -95,7 +95,6 @@ Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,rad
     var dx=xBall-x;
     var dy=yBall-y
     return(dx*dx+dy*dy<radiusBall*radiusBall);
-
 }
 
 Ball.prototype.handleBrickCollisions = function(brick) {
@@ -115,8 +114,13 @@ Ball.prototype.handleBrickCollisions = function(brick) {
         x : brick.x + brick.width,
         y : brick.y + brick.height
     }
+    //touches bottom border of the brick
     if (this.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,this.x,this.y,this.radius)) {
-        debugger;
-        this.bounce('top');
-    }
+        this.bounce('bottom');
+    //hits right border
+    }else if (this.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,this.x,this.y,this.radius)) this.bounce('right');
+    //hits top border
+    else if (this.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,this.x,this.y,this.radius)) this.bounce('top');
+    //hits left border
+    else if (this.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,this.x,this.y,this.radius)) this.bounce('left');
 }
