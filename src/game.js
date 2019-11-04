@@ -68,9 +68,9 @@ Game.prototype.startLoop = function () {
     this.platform.handleScreenCollision();
     this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
     
-    this.bricksArray.forEach(function (brick) {
+    this.bricksArray.forEach(function (brick,index) {
       
-      this.handleBrickCollisions(this.ball,brick);
+      this.handleBrickCollisions(this.ball,brick,index);
       
       
     }.bind(this));
@@ -98,7 +98,7 @@ Game.prototype.showScores = function () {};
 Game.prototype.removeGameScreen = function () {};
 Game.prototype.showGameOverText = function () {};
 
-Game.prototype.handleBrickCollisions = function(ball,brick) {
+Game.prototype.handleBrickCollisions = function(ball,brick,index) {
   var brickTopLeft = {
       x : brick.x,
       y : brick.y
@@ -118,11 +118,20 @@ Game.prototype.handleBrickCollisions = function(ball,brick) {
   //touches bottom border of the brick
   if (ball.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,ball.x,ball.y,ball.radius)) {
       ball.bounce('bottom');
-      
+      this.bricksArray.splice(index,1);
   //hits right border
-  }else if (ball.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,ball.x,ball.y,ball.radius)) ball.bounce('right');
+  }else if (ball.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,ball.x,ball.y,ball.radius)) {
+    ball.bounce('right');
+    this.bricksArray.splice(index,1);
+  }
   //hits top border
-  else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,ball.x,ball.y,ball.radius)) ball.bounce('top');
+  else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,ball.x,ball.y,ball.radius)) {
+    ball.bounce('top');
+    this.bricksArray.splice(index,1);
+  }
   //hits left border
-  else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,ball.x,ball.y,ball.radius)) ball.bounce('left');
+  else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,ball.x,ball.y,ball.radius)) {
+    ball.bounce('left');
+    this.bricksArray.splice(index,1);
+  }
 }
