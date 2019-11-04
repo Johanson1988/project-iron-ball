@@ -115,7 +115,7 @@ Game.prototype.setGameOver = function () {
   //ask if you wanna play again
   //goback to main menu
 };
-Game.prototype.showScores = function () {};
+Game.prototype.showScore = function () {};
 Game.prototype.removeGameScreen = function () {};
 Game.prototype.showGameOverText = function () {};
 

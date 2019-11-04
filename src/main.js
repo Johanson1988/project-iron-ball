@@ -74,8 +74,23 @@ function main() {
       gameInfoContainer.appendChild(timeContainer);
       gameInfoContainer.appendChild(pointsContainer);
 
+      var gameOverContainer = htmlElementGenerator('div','','game-over-hidden');
+      gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
+
+      var scoreContainer = htmlElementGenerator('div','','final-score');
+      scoreContainer.appendChild(htmlElementGenerator('span','Your Score', 'label'));
+      scoreContainer.appendChild(htmlElementGenerator('span','','value'));
+      gameOverContainer.appendChild(scoreContainer);
+
+      var nameForm = document.createElement('form');
+      nameForm.innerHTML = `<label for="name">Nickname</label>
+      <input type='text' name='name'></input>
+      <button>Submit</button>`;
+      gameOverContainer.appendChild(nameForm);
+
       gameContainer.appendChild(canvasContainer);
       gameContainer.appendChild(gameInfoContainer);
+      gameContainer.appendChild(gameOverContainer)
       
       document.body.appendChild(gameContainer);
       return gameContainer;
