@@ -96,31 +96,3 @@ Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,rad
     var dy=yBall-y
     return(dx*dx+dy*dy<radiusBall*radiusBall);
 }
-
-Ball.prototype.handleBrickCollisions = function(brick) {
-    var brickTopLeft = {
-        x : brick.x,
-        y : brick.y
-    }
-    var brickTopRight = {
-        x : brick.x+brick.width,
-        y : brick.y
-    }
-    var brickBottomLeft = {
-        x : brick.x,
-        y : brick.y+brick.height
-    }
-    var brickBottomRight = {
-        x : brick.x + brick.width,
-        y : brick.y + brick.height
-    }
-    //touches bottom border of the brick
-    if (this.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,this.x,this.y,this.radius)) {
-        this.bounce('bottom');
-    //hits right border
-    }else if (this.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,this.x,this.y,this.radius)) this.bounce('right');
-    //hits top border
-    else if (this.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,this.x,this.y,this.radius)) this.bounce('top');
-    //hits left border
-    else if (this.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,this.x,this.y,this.radius)) this.bounce('left');
-}

@@ -39,8 +39,8 @@ Game.prototype.start = function() {
   //Create bricks
   var totalWidth = random(5,20);
   var brickGap = 3;
-  for (var i=0;i<=0;i++) {                 //Cambiar este index para generar más ladrillos
-    var width = 500;//random(30,90);
+  for (var i=0;i<=8;i++) {                 //Cambiar este index para generar más ladrillos
+    var width = random(30,90);
     var brick = new Brick(this.canvas, totalWidth, 80, width);
     totalWidth += brickGap + brick.width;
     this.bricksArray.push(brick);
@@ -67,8 +67,14 @@ Game.prototype.startLoop = function () {
   var loop = function() {
     this.platform.handleScreenCollision();
     this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
-
-    this.ball.handleBrickCollisions(this.bricksArray[0]);
+    
+    this.bricksArray.forEach(function (brick) {
+      
+      this.handleBrickCollisions(this.ball,brick);
+      
+      
+    }.bind(this));
+    
 
     this.ball.updatePosition(this.platform.x+this.platform.width/2);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -91,3 +97,32 @@ Game.prototype.setGameOver = function () {};
 Game.prototype.showScores = function () {};
 Game.prototype.removeGameScreen = function () {};
 Game.prototype.showGameOverText = function () {};
+
+Game.prototype.handleBrickCollisions = function(ball,brick) {
+  var brickTopLeft = {
+      x : brick.x,
+      y : brick.y
+  }
+  var brickTopRight = {
+      x : brick.x+brick.width,
+      y : brick.y
+  }
+  var brickBottomLeft = {
+      x : brick.x,
+      y : brick.y+brick.height
+  }
+  var brickBottomRight = {
+      x : brick.x + brick.width,
+      y : brick.y + brick.height
+  }
+  //touches bottom border of the brick
+  if (ball.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,ball.x,ball.y,ball.radius)) {
+      ball.bounce('bottom');
+      
+  //hits right border
+  }else if (ball.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,ball.x,ball.y,ball.radius)) ball.bounce('right');
+  //hits top border
+  else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,ball.x,ball.y,ball.radius)) ball.bounce('top');
+  //hits left border
+  else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,ball.x,ball.y,ball.radius)) ball.bounce('left');
+}
