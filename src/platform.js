@@ -12,7 +12,6 @@ function Platform (canvas, lives) {
     this.direction = 0;
     this.sectionSize = 30; //size divided by 3 so 3 sections
     this.color = 'red';
-    this.initPos = {x: 455, y: 420};
 }
 
 // setDirection()
@@ -64,4 +63,11 @@ Platform.prototype.draw = function() {
 Platform.prototype.returnToInitialPosition = function() {
   //half of totalCanvasSize - half of platform size;
   this.x= this.canvas.width/2 - this.width/2;
+}
+Platform.prototype.addPoints = function (points) {
+  this.points += points;
+}
+Platform.prototype.updatePoints = function() {
+  var points = document.querySelector('.points .value');
+  points.innerHTML = this.points;
 }

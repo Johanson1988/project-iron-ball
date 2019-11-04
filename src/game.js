@@ -8,6 +8,7 @@ function Game () {
     this.ball = null;
     this.gameScreen = null;
     this.bricksArray = [];
+    this.chronometer = null;
 }
 
 Game.prototype.start = function() {
@@ -26,6 +27,9 @@ Game.prototype.start = function() {
   this.containerHeight = this.canvasContainer.offsetHeight;
   this.canvas.setAttribute('width', this.containerWidth);
   this.canvas.setAttribute('height', this.containerHeight);
+
+  //Creates a new chronometer
+  this.chronometer = new Chronometer();
 
   // Create a new platform and ball for the current game
   this.platform = new Platform(this.canvas, 5);
@@ -57,7 +61,10 @@ Game.prototype.start = function() {
       this.platform.setDirection('left');  
     }else if (event.key === 'ArrowRight') {
       this.platform.setDirection('right');
-    }else if (event.keyCode === 32) this.ball.launchBall() ;  
+    }else if (event.keyCode === 32) {
+      this.ball.launchBall();
+      this.chronometer.startClick();
+    }  
   };
 
   document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -82,15 +89,16 @@ Game.prototype.startLoop = function () {
       this.platform.draw();
       this.ball.draw();
       this.bricksArray.forEach(function(brick){
-      brick.draw();
-    });
+        brick.draw();      
+      });
+      this.platform.updatePoints();
     }else {
+      this.chronometer.stopClick();
       this.platform.removeLife();
       this.platform.returnToInitialPosition();
       this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
         this.platform.y-10);
     }
-    
     this.platform.updateLives();
     window.requestAnimationFrame(loop);
   }.bind(this);
@@ -125,19 +133,23 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
   if (ball.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,ball.x,ball.y,ball.radius)) {
       ball.bounce('bottom');
       this.bricksArray.splice(index,1);
+      this.platform.addPoints(100);
   //hits right border
   }else if (ball.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('right');
     this.bricksArray.splice(index,1);
+    this.platform.addPoints(100);
   }
   //hits top border
   else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('top');
     this.bricksArray.splice(index,1);
+    this.platform.addPoints(100);
   }
   //hits left border
   else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('left');
     this.bricksArray.splice(index,1);
+    this.platform.addPoints(100);
   }
 }
