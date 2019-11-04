@@ -68,45 +68,45 @@ function main() {
       gameInfoContainer.appendChild(lifeContainer);
       gameInfoContainer.appendChild(timeContainer);
       gameInfoContainer.appendChild(pointsContainer);
-
-      var gameOverContainer = htmlElementGenerator('div','','game-over');
-      gameOverContainer.classList.add('game-over-hidden');
-      gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
-
-      var scoreContainer = htmlElementGenerator('div','','final-score');
-      scoreContainer.appendChild(htmlElementGenerator('span','Your Score:', 'label'));
-      scoreContainer.appendChild(htmlElementGenerator('span','','value'));
-      gameOverContainer.appendChild(scoreContainer);
-
-      var nameForm = document.createElement('form');
-      nameForm.innerHTML = `<label for="name">Nickname</label>
-      <input type='text' name='name'></input>
-      <button>Submit</button>`;
-      gameOverContainer.appendChild(nameForm);
-
-      var gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
-      var playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
-      gameOverButtonsContainer.appendChild(playAgainButton);
-      var returnMainButton = htmlElementGenerator('button','Return to main screen','return-main-btn');
-      gameOverButtonsContainer.appendChild(returnMainButton);
-      gameOverContainer.appendChild(gameOverButtonsContainer);
-
-      playAgainButton.addEventListener('click', function() {
-        gameOverContainer.setAttribute('class','game-over-hidden game-over');
-        removeSplashScreen();
-        game.restartGame();
-      });
-
-      returnMainButton.addEventListener('click', function() {
-        removeGameScreen();
-      });
-
       gameContainer.appendChild(canvasContainer);
       gameContainer.appendChild(gameInfoContainer);
-      gameContainer.appendChild(gameOverContainer)
+      gameContainer.appendChild(buildGameOverWindow());  //Poner lo delgameover
       
       document.body.appendChild(gameContainer);
       return gameContainer;
+  }
+  function buildGameOverWindow() {
+    var gameOverContainer = htmlElementGenerator('div','','game-over');
+    gameOverContainer.classList.add('game-over-hidden');
+    gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
+
+    var scoreContainer = htmlElementGenerator('div','','final-score');
+    scoreContainer.appendChild(htmlElementGenerator('span','Your Score:', 'label'));
+    scoreContainer.appendChild(htmlElementGenerator('span','','value'));
+    gameOverContainer.appendChild(scoreContainer);
+
+    var nameForm = document.createElement('form');
+    nameForm.innerHTML = `<label for="name">Nickname</label>
+    <input type='text' name='name'></input>
+    <button>Submit</button>`;
+    gameOverContainer.appendChild(nameForm);
+
+    var gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
+    var playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
+    gameOverButtonsContainer.appendChild(playAgainButton);
+    var returnMainButton = htmlElementGenerator('button','Return to main screen','return-main-btn');
+    gameOverButtonsContainer.appendChild(returnMainButton);
+    gameOverContainer.appendChild(gameOverButtonsContainer);
+
+    playAgainButton.addEventListener('click', function() {
+      gameOverContainer.setAttribute('class','game-over-hidden game-over');
+      removeSplashScreen();
+      game.restartGame();
+    });
+    returnMainButton.addEventListener('click', function() {
+      removeGameScreen();
+    });
+    return gameOverContainer;
   }
 
   function removeGameScreen() {
