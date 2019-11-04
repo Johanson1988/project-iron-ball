@@ -70,16 +70,32 @@ Ball.prototype.bounce = function (bouncedFrom) {
 }
 
 Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,radiusBall) {
-    //extraced https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter
-    xInit -= xBall;
-    xEnd -= xBall;
-    yInit -= yBall;
-    yEnd -= yBall;
-    var dx = xEnd - xInit;
-    var dy = yEnd - yInit;
-    var dr_squared = dx**2 + dy**2;
-    var distance = xInit*yEnd - xEnd*yInit;
-return radiusBall**2 * dr_squared > distance**2;
+    //extraced https://stackoverflow.com/questions/36523507/detection-and-response-ball-to-wall-collision-inside-any-polygon
+    // calc delta distance: source point to line start
+    var dx=xBall-xInit;
+    var dy=yBall-yInit;
+
+    // calc delta distance: line start to end
+    var dxx=xEnd-xInit;
+    var dyy=yEnd-yInit;
+
+    // Calc position on line normalized between 0.00 & 1.00
+    // == dot product divided by delta line distances squared
+    var t=(dx*dxx+dy*dyy)/(dxx*dxx+dyy*dyy);
+
+    // calc nearest pt on line
+    var x=xInit+dxx*t;
+    var y=yInit+dyy*t;
+
+    // clamp results to being on the segment
+    if(t<0){x=xInit;y=yInit;}
+    if(t>1){x=xEnd;y=yEnd;}
+
+    //return({ x:x, y:y, isOnSegment:(t>=0 && t<=1) });
+    var dx=xBall-x;
+    var dy=yBall-y
+    return(dx*dx+dy*dy<radiusBall*radiusBall);
+
 }
 
 Ball.prototype.handleBrickCollisions = function(brick) {
