@@ -34,32 +34,24 @@ Ball.prototype.updatePosition = function (platformNewX) {
 }
 
 Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize) {
-    function pointInCircle(x, y, cx, cy, radius) {
-        //x,y points to check
-        //cx, cy points from the circle
-        var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
-        return distancesquared <= radius * radius;
-      }
     var screenRightBorder = this.canvas.width;
+    var screenBottonBorder = this.canvas.height;
     //If ball touches left wall
 
-    if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
+    if (this.ballTouchesLine(0,0,0,screenBottonBorder,this.x,this.y,this.radius)) {
         this.bounce('left');
     }
     //if ball touches right wall
-    else if (pointInCircle(screenRightBorder,this.y, this.x,this.y, this.radius)) {
+    else if (this.ballTouchesLine(screenRightBorder,0,screenRightBorder,screenBottonBorder,this.x,this.y,this.radius)) {
         this.bounce('right');
     }
     //If ball touches top wall
-    else if (pointInCircle(this.x,0, this.x,this.y, this.radius)) {
+    else if (this.ballTouchesLine(0,0,screenRightBorder,0,this.x,this.y,this.radius)) {
         this.bounce('top');
     }
     //If touches platform
-    else if ((this.y + this.speedY >= platformY) && (this.x >= platformX) && (this.x <= platformX + platformSize)) {
-        console.log('Passed first if');
-        if (pointInCircle(platformX, platformY, platformX, this.y, this.radius)) {
+    else if (this.ballTouchesLine(platformX,platformY,platformX+platformSize,platformY,this.x,this.y,this.radius)) {
             this.bounce('platform');
-        }
     }
 }
 
@@ -74,4 +66,17 @@ Ball.prototype.bounce = function (bouncedFrom) {
             this.speedX = -(this.speedX);
             break;
     }
+}
+
+Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,radiusBall) {
+    //extraced https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter
+    xInit -= xBall;
+    xEnd -= xBall;
+    yInit -= yBall;
+    yEnd -= yBall;
+    var dx = xEnd - xInit;
+    var dy = yEnd - yInit;
+    var dr_squared = dx**2 + dy**2;
+    var distance = xInit*yEnd - xEnd*yInit;
+return radiusBall**2 * dr_squared > distance**2;
 }
