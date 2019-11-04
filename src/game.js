@@ -39,9 +39,14 @@ Game.prototype.start = function() {
   //Create bricks
   var totalWidth = random(5,20);
   var brickGap = 3;
-  for (var i=0;i<=8;i++) {                 //Cambiar este index para generar más ladrillos
+  var totalHeight = 80;
+  for (var i=0;i<=60;i++) {                 //Cambiar este index para generar más ladrillos
     var width = random(30,90);
-    var brick = new Brick(this.canvas, totalWidth, 80, width);
+    if (totalWidth + width >= this.canvas.width) {
+      totalWidth = random(5,20);
+      totalHeight += random(16,30);
+    }
+    var brick = new Brick(this.canvas, totalWidth, totalHeight, width);
     totalWidth += brickGap + brick.width;
     this.bricksArray.push(brick);
   }
