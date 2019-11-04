@@ -59,6 +59,7 @@ Ball.prototype.bounce = function (bouncedFrom) {
     switch (bouncedFrom) {
         case 'top':
         case 'platform':
+        case 'bottom':
             this.speedY= -(this.speedY);
             break;
         case 'right':
@@ -79,4 +80,27 @@ Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,rad
     var dr_squared = dx**2 + dy**2;
     var distance = xInit*yEnd - xEnd*yInit;
 return radiusBall**2 * dr_squared > distance**2;
+}
+
+Ball.prototype.handleBrickCollisions = function(brick) {
+    var brickTopLeft = {
+        x : brick.x,
+        y : brick.y
+    }
+    var brickTopRight = {
+        x : brick.x+brick.width,
+        y : brick.y
+    }
+    var brickBottomLeft = {
+        x : brick.x,
+        y : brick.y+brick.height
+    }
+    var brickBottomRight = {
+        x : brick.x + brick.width,
+        y : brick.y + brick.height
+    }
+    if (this.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,this.x,this.y,this.radius)) {
+        debugger;
+        this.bounce('top');
+    }
 }
