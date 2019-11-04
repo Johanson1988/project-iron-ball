@@ -74,7 +74,7 @@ function main() {
       gameInfoContainer.appendChild(timeContainer);
       gameInfoContainer.appendChild(pointsContainer);
 
-      var gameOverContainer = htmlElementGenerator('div','','game-over-hidden');
+      var gameOverContainer = htmlElementGenerator('div','','game-over-hidden game-over');
       gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
 
       var scoreContainer = htmlElementGenerator('div','','final-score');
