@@ -35,8 +35,11 @@ function main() {
     splashScreen.appendChild(topScores);
 
     newGame.addEventListener('click', function() {
-        startGame();
-      });
+      startGame();
+    });
+    topScores.addEventListener('click', function() {
+      showScores();
+    });
     
     document.body.appendChild(splashScreen);
   }
@@ -122,6 +125,25 @@ function main() {
     game.start();
 
     game.passGameOverCallback(function() {
+      buildSplashScreen();
+    });
+  }
+
+  function showScores() {
+    removeSplashScreen();
+    var scoresScreen = htmlElementGenerator('div','','score-screen');
+    scoresScreen.appendChild(htmlElementGenerator('h1','Best Scores'));
+    
+    var listContainer = htmlElementGenerator('div','');
+    listContainer.appendChild(htmlElementGenerator('ol',''));
+
+    scoresScreen.appendChild(listContainer);
+    var returnButton = htmlElementGenerator('button','Return to main screen');
+    scoresScreen.appendChild(returnButton);
+    document.body.appendChild(scoresScreen);
+
+    returnButton.addEventListener('click', function() {
+      scoresScreen.remove();
       buildSplashScreen();
     });
   }
