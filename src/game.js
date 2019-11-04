@@ -32,7 +32,7 @@ Game.prototype.start = function() {
   this.ball = new Ball(
     this.canvas,
     this.platform.x+this.platform.width/2,
-    this.platform.y-10,
+    this.platform.y-10, //se le resta el radio
     random(-3,3),
     random(0,-3));
 
@@ -70,34 +70,35 @@ Game.prototype.start = function() {
 
 Game.prototype.startLoop = function () {
   var loop = function() {
-    this.platform.handleScreenCollision();
-    this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
-    
-    this.bricksArray.forEach(function (brick,index) {
-      
+    this.ball.fall();
+    if (!this.ball.fallen) {
+      this.platform.handleScreenCollision();
+      this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
+      this.bricksArray.forEach(function (brick,index) {
       this.handleBrickCollisions(this.ball,brick,index);
-      
-      
-    }.bind(this));
-    
-
-    this.ball.updatePosition(this.platform.x+this.platform.width/2);
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.platform.draw();
-    this.ball.draw();
-    this.bricksArray.forEach(function(brick){
+      }.bind(this));
+      this.ball.updatePosition(this.platform.x+this.platform.width/2);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.platform.draw();
+      this.ball.draw();
+      this.bricksArray.forEach(function(brick){
       brick.draw();
     });
-
+    }else {
+      this.platform.removeLife();
+      this.platform.returnToInitialPosition();
+      this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
+        this.platform.y-10);
+    }
+    
+    this.platform.updateLives();
     window.requestAnimationFrame(loop);
   }.bind(this);
 
   window.requestAnimationFrame(loop);
 } ;
-Game.prototype.checkCollisions = function () {};
-Game.prototype.clearCanvas = function () {};
-Game.prototype.updateCanvas = function () {};
-Game.prototype.drawCanvas = function () {};
+
+
 Game.prototype.setGameOver = function () {};
 Game.prototype.showScores = function () {};
 Game.prototype.removeGameScreen = function () {};

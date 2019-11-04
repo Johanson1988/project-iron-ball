@@ -10,7 +10,7 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.speedY = speedY;
     this.color = 'blue';
     this.launched = false;
-    this.stop = false; //testing option
+    this.fallen = false;
     //will add random to be launch to one direction or other
 }
 
@@ -95,4 +95,17 @@ Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,rad
     var dx=xBall-x;
     var dy=yBall-y
     return(dx*dx+dy*dy<radiusBall*radiusBall);
+}
+Ball.prototype.fall = function() {
+    if (this.ballTouchesLine(0,this.canvas.height,this.canvas.width,this.canvas.height,this.x,this.y,this.radius)) {
+        this.fallen = true;
+    }
+}
+Ball.prototype.returnToInitialPosition = function(x,y) {
+    this.launched = false;
+    this.x = x;
+    this.y = y;
+    this.speedY = random(0,3);
+    this.speedX = random(-3,3);
+    this.fallen = false;
 }

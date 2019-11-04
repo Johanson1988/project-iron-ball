@@ -45,6 +45,9 @@ else if (this.x < screenLeftBorder) this.x = 0;
 Platform.prototype.removeLife = function() {
     this.lives -= 1;
 };
+Platform.prototype.updateLives = function() {
+  document.querySelector('.lives .value').innerHTML = this.lives;
+}
 
 Platform.prototype.draw = function() {
   this.ctx.beginPath();
@@ -58,3 +61,7 @@ Platform.prototype.draw = function() {
   );
   this.ctx.closePath();
 };
+Platform.prototype.returnToInitialPosition = function() {
+  //half of totalCanvasSize - half of platform size;
+  this.x= this.canvas.width/2 - this.width/2;
+}
