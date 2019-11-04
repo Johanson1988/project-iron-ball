@@ -69,7 +69,8 @@ function main() {
       gameInfoContainer.appendChild(timeContainer);
       gameInfoContainer.appendChild(pointsContainer);
 
-      var gameOverContainer = htmlElementGenerator('div','','game-over-hidden game-over');
+      var gameOverContainer = htmlElementGenerator('div','','game-over');
+      gameOverContainer.classList.add('game-over-hidden');
       gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
 
       var scoreContainer = htmlElementGenerator('div','','final-score');
@@ -91,8 +92,8 @@ function main() {
       gameOverContainer.appendChild(gameOverButtonsContainer);
 
       playAgainButton.addEventListener('click', function() {
-        debugger;
-        gameOverContainer.classList.add('game-over-hidden');
+        gameOverContainer.setAttribute('class','game-over-hidden game-over');
+        removeSplashScreen();
         game.restartGame();
       });
 

@@ -64,6 +64,7 @@ Game.prototype.start = function() {
 
 
 Game.prototype.startLoop = function () {
+  
   var loop = function() {
     this.ball.fall();
     var time = document.querySelector('.time .value');
@@ -112,18 +113,20 @@ Game.prototype.removeGameScreen = function () {
   this.gameScreen.remove();
 };
 Game.prototype.showGameOverScreen = function () {
-  var gameOverScreen = document.querySelector('.game-over');
+  var gameOverScreen = document.querySelector('.game-over-hidden');
   gameOverScreen.classList.remove('game-over-hidden');
   var scores = document.querySelector('.final-score .value');
   scores.innerHTML = this.platform.getPoints();
-
 };
 
 Game.prototype.restartGame = function () {
-  this.platform.lives = 1;
+  this.platform.lives = 1;    //Add set life
   this.gameIsOver = false;
-  this.platform.points = 0;
+  this.platform.points = 0;         //Add set points
   this.chronometer.resetClick();
+  this.platform.returnToInitialPosition();
+  this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
+    this.platform.y-10);
   this.clearBricksArray();
   this.generateBricks();
   this.startLoop();
