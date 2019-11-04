@@ -20,8 +20,6 @@ function random(min,max) {
 function main() {
   var game; // instance of the Game
   var splashScreen; // Start Screen
-  var gameOverScreen;
-
     
   // -- splash screen
 
@@ -40,8 +38,6 @@ function main() {
         startGame();
       });
     
-
-
     document.body.appendChild(splashScreen);
   }
 
@@ -49,7 +45,6 @@ function main() {
       //Tested!
       splashScreen.remove();
   }
-
     
   function buildGameScreen() {
       
@@ -82,8 +77,6 @@ function main() {
       scoreContainer.appendChild(htmlElementGenerator('span','','value'));
       gameOverContainer.appendChild(scoreContainer);
 
-      
-
       var nameForm = document.createElement('form');
       nameForm.innerHTML = `<label for="name">Nickname</label>
       <input type='text' name='name'></input>
@@ -98,12 +91,13 @@ function main() {
       gameOverContainer.appendChild(gameOverButtonsContainer);
 
       playAgainButton.addEventListener('click', function() {
-        console.log('pressed play again');
+        debugger;
+        gameOverContainer.classList.add('game-over-hidden');
+        game.restartGame();
       });
 
       returnMainButton.addEventListener('click', function() {
-        gameContainer.remove();
-        buildGameScreen();
+        removeGameScreen();
       });
 
       gameContainer.appendChild(canvasContainer);
@@ -115,16 +109,8 @@ function main() {
   }
 
   function removeGameScreen() {
-      
+      game.removeGameScreen();
   }
-
-    
-  // -- game over screen & restart button
-
-  function buildGameOverMessage(score) {}
-
-  function removeGameOverMessage() {}
-
     
   // -- Setting the game state 
 
@@ -133,10 +119,11 @@ function main() {
     game = new Game();
     game.gameScreen = buildGameScreen();
     game.start();
+
+    game.passGameOverCallback(function() {
+      buildSplashScreen();
+    });
   }
-
-  function gameOver() {}
-
     
   // -- initialize Splash screen on initial start
   buildSplashScreen();

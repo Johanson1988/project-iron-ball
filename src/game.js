@@ -40,20 +40,8 @@ Game.prototype.start = function() {
     random(-3,3),
     random(0,-3));
 
-  //Create bricks
-  var totalWidth = random(5,20);
-  var brickGap = 3;
-  var totalHeight = 80;
-  for (var i=0;i<=60;i++) {                 //Cambiar este index para generar más ladrillos
-    var width = random(30,90);
-    if (totalWidth + width >= this.canvas.width) {
-      totalWidth = random(5,20);
-      totalHeight += random(16,30);
-    }
-    var brick = new Brick(this.canvas, totalWidth, totalHeight, width);
-    totalWidth += brickGap + brick.width;
-    this.bricksArray.push(brick);
-  }
+  //Generate bricks
+  this.generateBricks();
     
   // Add event listener for moving the player
   this.handleKeyDown = function(event)  {
@@ -78,6 +66,8 @@ Game.prototype.start = function() {
 Game.prototype.startLoop = function () {
   var loop = function() {
     this.ball.fall();
+    var time = document.querySelector('.time .value');
+    time.innerHTML = this.chronometer.setTime();
     if (!this.ball.isFallen()) {
       this.platform.handleScreenCollision();
       this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
@@ -102,7 +92,7 @@ Game.prototype.startLoop = function () {
       }else this.setGameOver();
     }
     this.platform.updateLives();
-    window.requestAnimationFrame(loop);
+    if (!this.gameIsOver) window.requestAnimationFrame(loop);
   }.bind(this);
 
   window.requestAnimationFrame(loop);
@@ -110,17 +100,34 @@ Game.prototype.startLoop = function () {
 
 
 Game.prototype.setGameOver = function () {
-  this.buildGameOverScreen();
+  this.gameIsOver = true;
+  this.showGameOverScreen();
+  this.onGameOverCallback();
+};
+Game.prototype.passGameOverCallback = function(callback) {
+  this.onGameOverCallback = callback;
 };
 
-Game.prototype.removeGameScreen = function () {};
-Game.prototype.buildGameOverScreen = function () {
+Game.prototype.removeGameScreen = function () {
+  this.gameScreen.remove();
+};
+Game.prototype.showGameOverScreen = function () {
   var gameOverScreen = document.querySelector('.game-over');
   gameOverScreen.classList.remove('game-over-hidden');
   var scores = document.querySelector('.final-score .value');
   scores.innerHTML = this.platform.getPoints();
 
 };
+
+Game.prototype.restartGame = function () {
+  this.platform.lives = 1;
+  this.gameIsOver = false;
+  this.platform.points = 0;
+  this.chronometer.resetClick();
+  this.clearBricksArray();
+  this.generateBricks();
+  this.startLoop();
+}
 
 Game.prototype.handleBrickCollisions = function(ball,brick,index) {
   var brickTopLeft = {
@@ -162,4 +169,23 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
     this.bricksArray.splice(index,1);
     this.platform.addPoints(100);
   }
+}
+Game.prototype.generateBricks = function () {
+  //Create bricks
+  var totalWidth = random(5,20);
+  var brickGap = 3;
+  var totalHeight = 80;
+  for (var i=0;i<=60;i++) {                 //Cambiar este index para generar más ladrillos
+    var width = random(30,90);
+    if (totalWidth + width >= this.canvas.width) {
+      totalWidth = random(5,20);
+      totalHeight += random(16,30);
+    }
+    var brick = new Brick(this.canvas, totalWidth, totalHeight, width);
+    totalWidth += brickGap + brick.width;
+    this.bricksArray.push(brick);
+  }
+}
+Game.prototype.clearBricksArray = function () {
+  this.bricksArray = [];
 }

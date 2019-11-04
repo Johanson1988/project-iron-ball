@@ -33,8 +33,7 @@ Chronometer.prototype.twoDigitsNumber = function (num) {
 };
 
 Chronometer.prototype.setTime = function() {
-    var time = document.querySelector('.time .value');
-    time.innerHTML = `${this.setMinutes()}:${this.setSeconds()}:${this.setMilliseconds()}`;
+     return `${this.setMinutes()}:${this.setSeconds()}:${this.setMilliseconds()}`;
 }
 
 Chronometer.prototype.stopClick = function () {
