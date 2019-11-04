@@ -109,3 +109,6 @@ Ball.prototype.returnToInitialPosition = function(x,y) {
     this.speedX = random(-3,3);
     this.fallen = false;
 }
+Ball.prototype.isFallen = function() {
+    return this.fallen;
+}

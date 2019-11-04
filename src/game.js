@@ -78,7 +78,7 @@ Game.prototype.start = function() {
 Game.prototype.startLoop = function () {
   var loop = function() {
     this.ball.fall();
-    if (!this.ball.fallen) {
+    if (!this.ball.isFallen()) {
       this.platform.handleScreenCollision();
       this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
       this.bricksArray.forEach(function (brick,index) {
@@ -95,9 +95,11 @@ Game.prototype.startLoop = function () {
     }else {
       this.chronometer.stopClick();
       this.platform.removeLife();
-      this.platform.returnToInitialPosition();
-      this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
-        this.platform.y-10);
+      if (this.platform.livesRemaining) {
+        this.platform.returnToInitialPosition();
+        this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
+          this.platform.y-10);
+      }else this.setGameOver();
     }
     this.platform.updateLives();
     window.requestAnimationFrame(loop);
@@ -107,7 +109,12 @@ Game.prototype.startLoop = function () {
 } ;
 
 
-Game.prototype.setGameOver = function () {};
+Game.prototype.setGameOver = function () {
+  //show score
+  //ask name to save score
+  //ask if you wanna play again
+  //goback to main menu
+};
 Game.prototype.showScores = function () {};
 Game.prototype.removeGameScreen = function () {};
 Game.prototype.showGameOverText = function () {};
