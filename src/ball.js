@@ -23,7 +23,6 @@ Ball.prototype.increaseSpeed = function() {
     else this.speedX += -0.001;
     if ((this.speedY >0)  && (Math.abs(this.speedY < 10))) this.speedY += 0.001;
     else this.speedY += -0.001;
-    console.log(this.speedX, this.speedY);
 }
 
 Ball.prototype.draw = function() {
@@ -71,18 +70,30 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
 }
 
 Ball.prototype.bounce = function (bouncedFrom, platformDirection) {
+    function changeAngle(speed) {
+        var random = Math.random();
+        if ((random >= 0.6) && (random <= 0.8)) speed += -1;
+        else if (random > 0.8) speed += 1;
+        if (random >0.6) console.log(random,'angle changed');
+        return speed;
+    }
     switch (bouncedFrom) {
         case 'top':
         case 'platform':
             if ((this.speedX > 0 && platformDirection < 0) || (this.speedX < 0 && platformDirection >0)) {
                 this.speedX = -(this.speedX);
+                console.log(this.speedX,this.speedY);
+                this.speedX = changeAngle(this.speedX);
+                console.log(this.speedX, this.speedY);
             }
         case 'bottom':
             this.speedY= -(this.speedY);
+            this.speedY = changeAngle(this.speedY);
             break;
         case 'right':
         case 'left':
             this.speedX = -(this.speedX);
+            this.speedX = changeAngle(this.speedX);
             break;
     }
 }

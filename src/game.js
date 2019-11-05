@@ -39,8 +39,8 @@ Game.prototype.start = function() {
     this.canvas,
     this.platform.x+this.platform.width/2,
     this.platform.y-10, //se le resta el radio
-    4.0,
-    -4.0);
+    3.0,
+    -3.0);
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
@@ -76,7 +76,7 @@ Game.prototype.startLoop = function () {
           this.lastBrickY = this.generateBricks(this.totalBricks);
           this.totalBricks += 10;
         }
-        //this.platform.autoPilot(this.ball.x);
+        this.platform.autoPilot(this.ball.x);
         this.platform.handleScreenCollision();
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
 
