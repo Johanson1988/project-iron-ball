@@ -30,10 +30,12 @@ Ball.prototype.updatePosition = function (platformNewX) {
     else {
         this.x += this.speedX;
         this.y += this.speedY;
+        console.log('x',this.x,'speed',this.speedX);
+        console.log('y', this.y, 'speed', this.speedY);
     }
 }
 
-Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize) {
+Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize,platformDirection) {
     var screenRightBorder = this.canvas.width;
     var screenBottonBorder = this.canvas.height;
     //If ball touches left wall
@@ -51,14 +53,17 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
     }
     //If touches platform
     else if (this.ballTouchesLine(platformX,platformY,platformX+platformSize,platformY,this.x,this.y,this.radius)) {
-            this.bounce('platform');
+            this.bounce('platform', platformDirection);
     }
 }
 
-Ball.prototype.bounce = function (bouncedFrom) {
+Ball.prototype.bounce = function (bouncedFrom, platformDirection) {
     switch (bouncedFrom) {
         case 'top':
         case 'platform':
+            if ((this.speedX > 0 && platformDirection < 0) || (this.speedX < 0 && platformDirection >0)) {
+                this.speedX = -(this.speedX);
+            }
         case 'bottom':
             this.speedY= -(this.speedY);
             break;

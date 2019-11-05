@@ -71,7 +71,7 @@ Game.prototype.startLoop = function () {
     time.innerHTML = this.chronometer.setTime();
     if (!this.ball.isFallen()) {
       this.platform.handleScreenCollision();
-      this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width);
+      this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
       this.bricksArray.forEach(function (brick,index) {
       this.handleBrickCollisions(this.ball,brick,index);
       }.bind(this));
