@@ -10,7 +10,7 @@ function Game () {
     this.bricksArray = [];
     this.chronometer = null;
     this.lastBrickY = null;
-    this.totalBricks = 20;
+    this.totalBricks = 30;
 }
 
 Game.prototype.start = function() {
@@ -39,12 +39,11 @@ Game.prototype.start = function() {
     this.canvas,
     this.platform.x+this.platform.width/2,
     this.platform.y-10, //se le resta el radio
-    3.0,
+    -3.0,
     -3.0);
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
-  this.totalBricks+=10;
     
   // Add event listener for moving the player
   this.handleKeyDown = function(event)  {
@@ -53,7 +52,7 @@ Game.prototype.start = function() {
     }else if (event.key === 'ArrowRight') {
       this.platform.setDirection('right');
     }else if (event.keyCode === 32) {
-      this.ball.launchBall();
+      this.ball.launchBall(true);
       this.chronometer.startClick();
     }  
   };
@@ -70,13 +69,20 @@ Game.prototype.startLoop = function () {
     this.ball.fall();
     var time = document.querySelector('.time .value');
     time.innerHTML = this.chronometer.setTime();
+    if (!this.ball.getBallIsLaunched()) {
+      if ((this.platform.getDirection() > 0 && this.ball.getSpeedX() < 0)
+          || (this.platform.getDirection() < 0 && this.ball.getSpeedX() > 0))
+        this.ball.setSpeeds(this.ball.getSpeedX*-1);
+    }
     if (!this.ball.isFallen()) {
       this.platform.handleScreenCollision();
+      if (this.bricksArray.length === 0) {
+        this.lastBrickY = this.generateBricks(this.totalBricks);
+        this.ball.launchBall(false);
+        this.chronometer.stopClick();
+        this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
+      }
       if (this.ball.getBallIsLaunched()) {
-        if (this.bricksArray.length === 0) {
-          this.lastBrickY = this.generateBricks(this.totalBricks);
-          this.totalBricks += 10;
-        }
         //this.platform.autoPilot(this.ball.x);
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
 
@@ -146,7 +152,6 @@ Game.prototype.restartGame = function () {
     this.platform.y-10);
   this.ball.setSpeeds(2.5,-2.5);
   this.clearBricksArray();
-  this.totalBricks = 20;
   this.generateBricks(this.totalBricks);
   this.startLoop();
 }
@@ -194,7 +199,7 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
 }
 Game.prototype.generateBricks = function (totalBricks) {
   //Create bricks
-  var totalWidth = random(5,20);
+  var totalWidth = random(20,50);
   var brickGap = 3;
   var totalHeight = 80;
   for (var i=0;i<=totalBricks;i++) {                 //Cambiar este index para generar más ladrillos
@@ -207,8 +212,12 @@ Game.prototype.generateBricks = function (totalBricks) {
     totalWidth += brickGap + brick.width;
     this.bricksArray.push(brick);
   }
+  this.increaseTotalBricks();
   return totalHeight + brick.height;
 }
 Game.prototype.clearBricksArray = function () {
   this.bricksArray = [];
+}
+Game.prototype.increaseTotalBricks = function() {
+  this.totalBricks +=10;
 }

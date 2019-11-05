@@ -81,3 +81,6 @@ Platform.prototype.livesRemaining = function () {
 Platform.prototype.autoPilot = function(ballX) {
   this.x = ballX-this.width/2;
 }
+Platform.prototype.getDirection = function () {
+  return this.direction;
+}
