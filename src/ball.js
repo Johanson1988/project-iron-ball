@@ -49,51 +49,45 @@ Ball.prototype.updatePosition = function (platformNewX) {
 
 Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize,platformDirection) {
     var screenRightBorder = this.canvas.width;
-    var screenBottonBorder = this.canvas.height;
+    function pointInCircle(x, y, cx, cy, radius) {
+        //x,y points to check
+        //cx, cy points from the circle
+        var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
+        return distancesquared <= radius * radius;
+      }
+    var screenRightBorder = this.canvas.width;
     //If ball touches left wall
 
-    if (this.ballTouchesLine(0,0,0,screenBottonBorder,this.x,this.y,this.radius)) {
+    if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
         this.bounce('left');
     }
     //if ball touches right wall
-    else if (this.ballTouchesLine(screenRightBorder,0,screenRightBorder,screenBottonBorder,this.x,this.y,this.radius)) {
+    else if (pointInCircle(screenRightBorder,this.y, this.x,this.y, this.radius)) {
         this.bounce('right');
     }
     //If ball touches top wall
-    else if (this.ballTouchesLine(0,0,screenRightBorder,0,this.x,this.y,this.radius)) {
+    else if (pointInCircle(this.x,0, this.x,this.y, this.radius)) {
         this.bounce('top');
     }
     //If touches platform
-    else if (this.ballTouchesLine(platformX,platformY,platformX+platformSize,platformY,this.x,this.y,this.radius)) {
+    else if (this.ballTouchesLine(platformX-5,platformY,platformX+platformSize+5,platformY,this.x,this.y,this.radius)) {
             this.bounce('platform', platformDirection);
     }
 }
 
 Ball.prototype.bounce = function (bouncedFrom, platformDirection) {
-    function changeAngle(speed) {
-        var random = Math.random();
-        if ((random >= 0.6) && (random <= 0.8)) speed += -1;
-        else if (random > 0.8) speed += 1;
-        if (random >0.6) console.log(random,'angle changed');
-        return speed;
-    }
     switch (bouncedFrom) {
         case 'top':
         case 'platform':
             if ((this.speedX > 0 && platformDirection < 0) || (this.speedX < 0 && platformDirection >0)) {
                 this.speedX = -(this.speedX);
-                console.log(this.speedX,this.speedY);
-                this.speedX = changeAngle(this.speedX);
-                console.log(this.speedX, this.speedY);
             }
         case 'bottom':
             this.speedY= -(this.speedY);
-            this.speedY = changeAngle(this.speedY);
             break;
         case 'right':
         case 'left':
             this.speedX = -(this.speedX);
-            this.speedX = changeAngle(this.speedX);
             break;
     }
 }

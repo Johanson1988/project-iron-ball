@@ -71,13 +71,13 @@ Game.prototype.startLoop = function () {
     var time = document.querySelector('.time .value');
     time.innerHTML = this.chronometer.setTime();
     if (!this.ball.isFallen()) {
+      this.platform.handleScreenCollision();
       if (this.ball.getBallIsLaunched()) {
         if (this.bricksArray.length === 0) {
           this.lastBrickY = this.generateBricks(this.totalBricks);
           this.totalBricks += 10;
         }
-        this.platform.autoPilot(this.ball.x);
-        this.platform.handleScreenCollision();
+        //this.platform.autoPilot(this.ball.x);
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
 
         //avoid checking brick collisions if the ball isn't in the area to save CPU
