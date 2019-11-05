@@ -13,6 +13,18 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.fallen = false;
     //will add random to be launch to one direction or other
 }
+Ball.prototype.setSpeeds = function(speedX, speedY) {
+    this.speedX = speedX;
+    this.speedY = speedY;
+}
+
+Ball.prototype.increaseSpeed = function() {
+    if ((this.speedX >0) && (Math.abs(this.speedX < 10))) this.speedX += 0.001;
+    else this.speedX += -0.001;
+    if ((this.speedY >0)  && (Math.abs(this.speedY < 10))) this.speedY += 0.001;
+    else this.speedY += -0.001;
+    console.log(this.speedX, this.speedY);
+}
 
 Ball.prototype.draw = function() {
     this.ctx.beginPath();
@@ -24,14 +36,15 @@ Ball.prototype.draw = function() {
 Ball.prototype.launchBall = function () {
     this.launched = true;
 }
+Ball.prototype.getBallIsLaunched = function () {
+    return this.launched;
+}
 
 Ball.prototype.updatePosition = function (platformNewX) {
     if (!this.launched) this.x = platformNewX;
     else {
         this.x += this.speedX;
         this.y += this.speedY;
-        console.log('x',this.x,'speed',this.speedX);
-        console.log('y', this.y, 'speed', this.speedY);
     }
 }
 

@@ -9,6 +9,8 @@ function Game () {
     this.gameScreen = null;
     this.bricksArray = [];
     this.chronometer = null;
+    this.lastBrickY = null;
+    this.totalBricks = 20;
 }
 
 Game.prototype.start = function() {
@@ -37,11 +39,12 @@ Game.prototype.start = function() {
     this.canvas,
     this.platform.x+this.platform.width/2,
     this.platform.y-10, //se le resta el radio
-    random(-3,3),
-    random(0,-3));
+    4.0,
+    -4.0);
 
   //Generate bricks
-  this.generateBricks();
+  this.lastBrickY = this.generateBricks(this.totalBricks);
+  this.totalBricks+=10;
     
   // Add event listener for moving the player
   this.handleKeyDown = function(event)  {
@@ -61,8 +64,6 @@ Game.prototype.start = function() {
   this.startLoop();
 };
 
-
-
 Game.prototype.startLoop = function () {
   
   var loop = function() {
@@ -70,19 +71,35 @@ Game.prototype.startLoop = function () {
     var time = document.querySelector('.time .value');
     time.innerHTML = this.chronometer.setTime();
     if (!this.ball.isFallen()) {
-      this.platform.handleScreenCollision();
-      this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
-      this.bricksArray.forEach(function (brick,index) {
-      this.handleBrickCollisions(this.ball,brick,index);
-      }.bind(this));
+      if (this.ball.getBallIsLaunched()) {
+        if (this.bricksArray.length === 0) {
+          this.lastBrickY = this.generateBricks(this.totalBricks);
+          this.totalBricks += 10;
+        }
+        //this.platform.autoPilot(this.ball.x);
+        this.platform.handleScreenCollision();
+        this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
+
+        //avoid checking brick collisions if the ball isn't in the area to save CPU
+        
+        if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius)) {
+          
+          this.bricksArray.forEach(function (brick,index) {
+            this.handleBrickCollisions(this.ball,brick,index);
+            }.bind(this));
+        }
+        this.platform.updatePoints();
+      }
       this.ball.updatePosition(this.platform.x+this.platform.width/2);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.platform.draw();
       this.ball.draw();
       this.bricksArray.forEach(function(brick){
-        brick.draw();      
+        brick.draw();
       });
-      this.platform.updatePoints();
+      if (this.ball.getBallIsLaunched()) {
+        this.ball.increaseSpeed();
+      }
     }else {
       this.chronometer.stopClick();
       this.platform.removeLife();      
@@ -127,8 +144,10 @@ Game.prototype.restartGame = function () {
   this.platform.returnToInitialPosition();
   this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
     this.platform.y-10);
+  this.ball.setSpeeds(2.5,-2.5);
   this.clearBricksArray();
-  this.generateBricks();
+  this.totalBricks = 20;
+  this.generateBricks(this.totalBricks);
   this.startLoop();
 }
 
@@ -173,12 +192,12 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
     this.platform.addPoints(100);
   }
 }
-Game.prototype.generateBricks = function () {
+Game.prototype.generateBricks = function (totalBricks) {
   //Create bricks
   var totalWidth = random(5,20);
   var brickGap = 3;
   var totalHeight = 80;
-  for (var i=0;i<=60;i++) {                 //Cambiar este index para generar más ladrillos
+  for (var i=0;i<=totalBricks;i++) {                 //Cambiar este index para generar más ladrillos
     var width = random(30,90);
     if (totalWidth + width >= this.canvas.width) {
       totalWidth = random(5,20);
@@ -188,6 +207,7 @@ Game.prototype.generateBricks = function () {
     totalWidth += brickGap + brick.width;
     this.bricksArray.push(brick);
   }
+  return totalHeight + brick.height;
 }
 Game.prototype.clearBricksArray = function () {
   this.bricksArray = [];

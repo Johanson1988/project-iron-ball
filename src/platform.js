@@ -4,7 +4,7 @@ function Platform (canvas, lives) {
     this.ctx = this.canvas.getContext('2d');
     this.x = 455; //half of totalCanvasSize - half of platform size;
     this.y = 380; //420 final value
-    this.speed = 20;
+    this.speed = 30;
     this.lives = 1;
     this.points = 0;
     this.width = 90;
@@ -77,4 +77,7 @@ Platform.prototype.getPoints = function() {
 Platform.prototype.livesRemaining = function () {
   if (this.lives > 0) return true;
   else return false;
+}
+Platform.prototype.autoPilot = function(ballX) {
+  this.x = ballX-this.width/2;
 }
