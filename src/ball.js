@@ -23,12 +23,12 @@ Ball.prototype.increaseSpeed = function(autoPilotSwitch) {
     var incSpeedX = 0.001;
     var incSpeedY = 0.001;
     if (autoPilotSwitch) {
-        incSpeedX = 0.01;
-        incSpeedY = 0.01;
+        incSpeedX = 0.05;
+        incSpeedY = 0.05;
     }
-    if ((this.speedX >0) && (Math.abs(this.speedX < 12))) this.speedX += incSpeedX;
+    if ((this.speedX >0) && (Math.abs(this.speedX < 11))) this.speedX += incSpeedX;
     else this.speedX += -1*incSpeedX;
-    if ((this.speedY >0)  && (Math.abs(this.speedY < 14))) this.speedY += incSpeedY;
+    if ((this.speedY >0)  && (Math.abs(this.speedY < 13))) this.speedY += incSpeedY;
     else this.speedY += -1*incSpeedY;
 }
 
