@@ -13,6 +13,32 @@ function Game () {
     this.totalBricks = 30;
 }
 
+//Canvas Background
+var img = new Image();
+img.src = '../images/space-1565986_1280.png'
+
+var backgroundImage = {
+  img: img,
+  y: 0,
+  speed: -20,
+
+  move: function(canvas) {
+    this.y += this.speed;
+    this.y %= canvas.height;
+  },
+
+  draw: function(canvas,ctx) {
+    ctx.drawImage(this.img, 0, this.y);
+    if (this.speed < 0) {
+      ctx.drawImage(this.img, 0, this.y + canvas.height);
+    } else {
+      ctx.drawImage(this.img, 0, this.y - this.img.height);
+    }
+  },
+};
+
+
+
 Game.prototype.start = function() {
     // Save reference to canvas and container. Create ctx
   this.canvasContainer = document.querySelector('.canvas-container');
@@ -98,6 +124,8 @@ Game.prototype.startLoop = function () {
       }
       this.ball.updatePosition(this.platform.x+this.platform.width/2);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      backgroundImage.move(this.canvas);
+      backgroundImage.draw(this.canvas,this.ctx);
       this.platform.draw();
       this.ball.draw();
       this.bricksArray.forEach(function(brick){
@@ -221,3 +249,6 @@ Game.prototype.clearBricksArray = function () {
 Game.prototype.increaseTotalBricks = function() {
   this.totalBricks +=10;
 }
+
+// start calling updateCanvas once the image is loaded
+//img.onload = updateCanvas;
