@@ -8,10 +8,11 @@ function Platform (canvas, lives) {
     this.lives = 1;
     this.points = 0;
     this.width = 90;
-    this.height = 15;
+    this.height = 30;
     this.direction = 0;
     this.sectionSize = 30; //size divided by 3 so 3 sections
     this.color = 'red';
+    this.rocketImg = new Image();
 }
 
 // setDirection()
@@ -49,16 +50,16 @@ Platform.prototype.updateLives = function() {
 }
 
 Platform.prototype.draw = function() {
-  this.ctx.beginPath();
-  this.ctx.fillStyle = this.color;
+  if (this.direction === 1) this.rocketImg.src = ('../images/rocketL.png');
+  else this.rocketImg.src = ('../images/rocketR.png');
   // fillRect(x, y, width, height)
-  this.ctx.fillRect(
+  this.ctx.drawImage(this.rocketImg,
     this.x,
     this.y,
     this.width,
     this.height
   );
-  this.ctx.closePath();
+  
 };
 Platform.prototype.returnToInitialPosition = function() {
   //half of totalCanvasSize - half of platform size;
