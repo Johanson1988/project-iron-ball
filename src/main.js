@@ -20,6 +20,13 @@ function random(min,max) {
 function main() {
   var game; // instance of the Game
   var splashScreen; // Start Screen
+  var topScoresList = new Scores();
+  //Borrar
+    topScoresList.addNewScore({name:'Johann',score: 99});
+    topScoresList.addNewScore({name:'Aaron',score: 89});
+    topScoresList.addNewScore({name:'Johann2',score: 77});
+    topScoresList.addNewScore({name:'Pedro',score: 99});
+
     
   // -- splash screen
 
@@ -29,7 +36,7 @@ function main() {
     var title = htmlElementGenerator('h1','IronBall');
     var newGame = htmlElementGenerator('button','NEW GAME');
     var topScores = htmlElementGenerator('button', 'TOP SCORES');
-
+    
     splashScreen.appendChild(title);
     splashScreen.appendChild(newGame);
     splashScreen.appendChild(topScores);
@@ -136,6 +143,12 @@ function main() {
     
     var listContainer = htmlElementGenerator('div','');
     listContainer.appendChild(htmlElementGenerator('ol',''));
+    topScoresList.getScores().forEach(function (element) {
+      var liPlayer = htmlElementGenerator('li','','player-score');
+      liPlayer.appendChild(htmlElementGenerator('span',element.name,'player-score player-name'));
+      liPlayer.appendChild(htmlElementGenerator('span',element.score,'player-score'));
+      listContainer.appendChild(liPlayer);
+    });
 
     scoresScreen.appendChild(listContainer);
     var returnButton = htmlElementGenerator('button','Return to main screen');

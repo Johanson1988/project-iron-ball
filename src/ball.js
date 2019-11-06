@@ -11,6 +11,7 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.color = 'blue';
     this.launched = false;
     this.fallen = false;
+    this.image = new Image();
     //will add random to be launch to one direction or other
 }
 Ball.prototype.setSpeeds = function(speedX, speedY) {
@@ -25,11 +26,30 @@ Ball.prototype.increaseSpeed = function() {
     else this.speedY += -0.001;
 }
 
+/* 
+var image = new Image();
+image.src = /*image url;
+image.onload = function() {
+    context.save();
+    context.globalCompositeOperation = 'source-in';
+    context.drawImage(image, 0, 0);
+    context.restore();
+};
+*/
+
 Ball.prototype.draw = function() {
     this.ctx.beginPath();
+    
     this.ctx.fillStyle = this.color;
-    this.ctx.arc(this.x, this.y, this.radius, 0, (Math.PI) * 2);
+    this.ctx.arc(this.x, this.y, this.radius, 0, (Math.PI) * 2);    
     this.ctx.fill();
+     /*this.image.src = ('../images/asteroid_resized.png');
+
+    this.ctx.save();
+    this.ctx.globalCompositeOperation = 'source-over';
+    this.ctx.drawImage(this.image, this.x, this.y);
+    this.ctx.restore(); */
+    
     this.ctx.closePath();
 }
 Ball.prototype.launchBall = function (launched) {
