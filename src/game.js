@@ -249,6 +249,7 @@ Game.prototype.generateBricks = function (totalBricks) {
       totalWidth = random(5,20);
       totalHeight += random(25,60);
     }
+    
     var brick = new Brick(this.canvas, totalWidth, totalHeight, width);
     totalWidth += brickGap + brick.width;
     this.bricksArray.push(brick);
