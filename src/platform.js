@@ -3,7 +3,7 @@ function Platform (canvas, lives) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     this.x = 455; //half of totalCanvasSize - half of platform size;
-    this.y = 380; //420 final value
+    this.y = 500; //420 final value
     this.speed = 50;
     this.lives = 1;
     this.points = 0;

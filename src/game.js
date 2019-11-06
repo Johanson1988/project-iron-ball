@@ -15,12 +15,12 @@ function Game () {
 
 //Canvas Background
 var img = new Image();
-img.src = './images/space-1565986_1280.png'
+img.src = './images/test-2.png'
 
 var backgroundImage = {
   img: img,
   y: 0,
-  speed: -10,
+  speed: 20,
 
   move: function(canvas) {
     this.y += this.speed;
