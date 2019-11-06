@@ -15,7 +15,7 @@ function Game () {
 
 //Canvas Background
 var img = new Image();
-img.src = '../images/space-1565986_1280.png'
+img.src = './images/space-1565986_1280.png'
 
 var backgroundImage = {
   img: img,

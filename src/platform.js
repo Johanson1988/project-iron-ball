@@ -50,8 +50,8 @@ Platform.prototype.updateLives = function() {
 }
 
 Platform.prototype.draw = function() {
-  if (this.direction === 1) this.rocketImg.src = ('../images/rocketL.png');
-  else this.rocketImg.src = ('../images/rocketR.png');
+  if (this.direction === 1) this.rocketImg.src = ('./images/rocketL.png');
+  else this.rocketImg.src = ('./images/rocketR.png');
   // fillRect(x, y, width, height)
   this.ctx.drawImage(this.rocketImg,
     this.x,
