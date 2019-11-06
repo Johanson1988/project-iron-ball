@@ -249,6 +249,9 @@ Game.prototype.clearBricksArray = function () {
 Game.prototype.increaseTotalBricks = function() {
   this.totalBricks +=10;
 }
+Game.prototype.getPoints = function () {
+  return this.platform.getPoints();
+}
 
 // start calling updateCanvas once the image is loaded
 //img.onload = updateCanvas;

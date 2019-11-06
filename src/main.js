@@ -21,12 +21,6 @@ function main() {
   var game; // instance of the Game
   var splashScreen; // Start Screen
   var topScoresList = new Scores();
-  //Borrar
-    topScoresList.addNewScore({name:'Johann',score: 99});
-    topScoresList.addNewScore({name:'Aaron',score: 89});
-    topScoresList.addNewScore({name:'Johann2',score: 77});
-    topScoresList.addNewScore({name:'Pedro',score: 99});
-
     
   // -- splash screen
 
@@ -97,8 +91,8 @@ function main() {
 
     var nameForm = document.createElement('form');
     nameForm.innerHTML = `<label for="name">Nickname</label>
-    <input type='text' name='name'></input>
-    <button>Submit</button>`;
+    <input type='text' name='name' id='player-name'></input>
+    `;
     gameOverContainer.appendChild(nameForm);
 
     var gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
@@ -109,11 +103,20 @@ function main() {
     gameOverContainer.appendChild(gameOverButtonsContainer);
 
     playAgainButton.addEventListener('click', function() {
+      var playerName = document.getElementById('player-name').value;
+      var playerScore = '';
+      savePlayerScore(playerName,9999);
+      
+      //AQUIIIIIIIIIIIIIIIIIIIi
+      
       gameOverContainer.setAttribute('class','game-over-hidden game-over');
       removeSplashScreen();
       game.restartGame();
     });
     returnMainButton.addEventListener('click', function() {
+      var playerName = document.getElementById('player-name').value;
+      var playerScore = game.getPoints();
+      savePlayerScore(playerName,playerScore);
       removeGameScreen();
     });
     return gameOverContainer;
@@ -121,6 +124,9 @@ function main() {
 
   function removeGameScreen() {
       game.removeGameScreen();
+  }
+  function savePlayerScore (name, score) {
+    topScoresList.addNewScore({name:name,score:score});
   }
     
   // -- Setting the game state 
