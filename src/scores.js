@@ -26,6 +26,8 @@ Scores.prototype.saveToLocalStorage = function () {
     localStorage.setItem('score', scoreStringified);
 }
 Scores.prototype.loadFromLocalStorage = function () {
-    var retrieved = localStorage.getItem('score');
-    this.topScores = JSON.parse(retrieved);
+    if (localStorage.getItem('score')) {
+        var retrieved = localStorage.getItem('score');
+        this.topScores = JSON.parse(retrieved);
+    }    
 }

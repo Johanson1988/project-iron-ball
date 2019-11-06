@@ -21,7 +21,7 @@ function main() {
   var game; // instance of the Game
   var splashScreen; // Start Screen
   var topScoresList = new Scores();
-  //topScoresList.loadFromLocalStorage();
+  topScoresList.loadFromLocalStorage();
     
   // -- splash screen
 
@@ -124,9 +124,8 @@ function main() {
       game.removeGameScreen();
   }
   function savePlayerScore (name, score) {
-    console.log(topScoresList,name,score);
     topScoresList.addNewScore({name:name,score:score});
-    //topScoresList.saveToLocalStorage();
+    topScoresList.saveToLocalStorage();
   }
     
   // -- Setting the game state 
