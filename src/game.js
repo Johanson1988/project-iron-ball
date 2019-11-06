@@ -20,7 +20,7 @@ img.src = './images/test-2.png'
 var backgroundImage = {
   img: img,
   y: 0,
-  speed: 20,
+  speed: 17,
 
   move: function(canvas) {
     this.y += this.speed;
@@ -110,9 +110,12 @@ Game.prototype.startLoop = function () {
       this.platform.handleScreenCollision();
       if (this.bricksArray.length === 0) {
         this.lastBrickY = this.generateBricks(this.totalBricks);
-        this.ball.launchBall(false);
-        this.chronometer.stopClick();
-        this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
+        if (!this.platform.autoPilotSwitch) {
+          this.ball.launchBall(false);
+          this.chronometer.stopClick();
+          this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
+        }
+        
       }
       if (this.ball.getBallIsLaunched()) {
         if (this.platform.autoPilotSwitch) {
@@ -140,7 +143,7 @@ Game.prototype.startLoop = function () {
         brick.draw();
       });
       if (this.ball.getBallIsLaunched()) {
-        this.ball.increaseSpeed();
+        this.ball.increaseSpeed(this.platform.autoPilotSwitch);
       }
     }else {
       this.chronometer.stopClick();
@@ -187,8 +190,9 @@ Game.prototype.restartGame = function () {
   this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
     this.platform.y-10);
   this.ball.setSpeeds(2.5,-2.5);
+  this.totalBricks = 30;
   this.clearBricksArray();
-  this.generateBricks(this.totalBricks);
+  this.lastBrickY = this.generateBricks(this.totalBricks);
   this.startLoop();
 }
 

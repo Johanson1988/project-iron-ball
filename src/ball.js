@@ -8,7 +8,7 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.radius = 10;
     this.speedX = speedX;
     this.speedY = speedY;
-    this.color = 'blue';
+    this.color = '#F6D5D5';
     this.launched = false;
     this.fallen = false;
     this.image = new Image();
@@ -19,11 +19,17 @@ Ball.prototype.setSpeeds = function(speedX, speedY) {
     if (speedY) this.speedY = speedY;
 }
 
-Ball.prototype.increaseSpeed = function() {
-    if ((this.speedX >0) && (Math.abs(this.speedX < 10))) this.speedX += 0.001;
-    else this.speedX += -0.001;
-    if ((this.speedY >0)  && (Math.abs(this.speedY < 10))) this.speedY += 0.001;
-    else this.speedY += -0.001;
+Ball.prototype.increaseSpeed = function(autoPilotSwitch) {
+    var incSpeedX = 0.001;
+    var incSpeedY = 0.001;
+    if (autoPilotSwitch) {
+        incSpeedX = 0.01;
+        incSpeedY = 0.01;
+    }
+    if ((this.speedX >0) && (Math.abs(this.speedX < 12))) this.speedX += incSpeedX;
+    else this.speedX += -1*incSpeedX;
+    if ((this.speedY >0)  && (Math.abs(this.speedY < 14))) this.speedY += incSpeedY;
+    else this.speedY += -1*incSpeedY;
 }
 
 /* 
