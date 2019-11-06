@@ -19,3 +19,13 @@ Scores.prototype.sortScores = function() {
 Scores.prototype.getScores = function () {
     return this.topScores;
 }
+
+Scores.prototype.saveToLocalStorage = function () {
+    localStorage.clear();
+    var scoreStringified = JSON.stringify(this.topScores);
+    localStorage.setItem('score', scoreStringified);
+}
+Scores.prototype.loadFromLocalStorage = function () {
+    var retrieved = localStorage.getItem('score');
+    this.topScores = JSON.parse(retrieved);
+}

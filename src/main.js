@@ -21,6 +21,7 @@ function main() {
   var game; // instance of the Game
   var splashScreen; // Start Screen
   var topScoresList = new Scores();
+  //topScoresList.loadFromLocalStorage();
     
   // -- splash screen
 
@@ -104,11 +105,8 @@ function main() {
 
     playAgainButton.addEventListener('click', function() {
       var playerName = document.getElementById('player-name').value;
-      var playerScore = '';
-      savePlayerScore(playerName,9999);
-      
-      //AQUIIIIIIIIIIIIIIIIIIIi
-      
+      var playerScore = game.getPoints();
+      savePlayerScore(playerName,playerScore);
       gameOverContainer.setAttribute('class','game-over-hidden game-over');
       removeSplashScreen();
       game.restartGame();
@@ -126,7 +124,9 @@ function main() {
       game.removeGameScreen();
   }
   function savePlayerScore (name, score) {
+    console.log(topScoresList,name,score);
     topScoresList.addNewScore({name:name,score:score});
+    //topScoresList.saveToLocalStorage();
   }
     
   // -- Setting the game state 

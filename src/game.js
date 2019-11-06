@@ -20,7 +20,7 @@ img.src = './images/space-1565986_1280.png'
 var backgroundImage = {
   img: img,
   y: 0,
-  speed: -20,
+  speed: -10,
 
   move: function(canvas) {
     this.y += this.speed;
@@ -109,7 +109,7 @@ Game.prototype.startLoop = function () {
         this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
       }
       if (this.ball.getBallIsLaunched()) {
-        this.platform.autoPilot(this.ball.x);
+        //this.platform.autoPilot(this.ball.x);
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
 
         //avoid checking brick collisions if the ball isn't in the area to save CPU
