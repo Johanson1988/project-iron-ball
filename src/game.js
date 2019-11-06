@@ -80,7 +80,13 @@ Game.prototype.start = function() {
     }else if (event.keyCode === 32) {
       this.ball.launchBall(true);
       this.chronometer.startClick();
-    }  
+    }else if (event.keyCode === 81) {
+      this.platform.activateAutoPilot(true);
+      console.log('autopilot activated');
+    }else if(event.keyCode ===80) {
+      this.platform.activateAutoPilot(false);
+      console.log('autopilot deactivated');
+    }
   };
 
   document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -109,12 +115,14 @@ Game.prototype.startLoop = function () {
         this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
       }
       if (this.ball.getBallIsLaunched()) {
-        //this.platform.autoPilot(this.ball.x);
-        this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
+        if (this.platform.autoPilotSwitch) {
+          this.platform.autoPilot(this.ball.x);
+        }
+        this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
 
         //avoid checking brick collisions if the ball isn't in the area to save CPU
         
-        if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius)) {
+        if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius*3)) {
           
           this.bricksArray.forEach(function (brick,index) {
             this.handleBrickCollisions(this.ball,brick,index);

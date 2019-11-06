@@ -67,7 +67,7 @@ Ball.prototype.updatePosition = function (platformNewX) {
     }
 }
 
-Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize,platformDirection) {
+Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSize,platformDirection,autoPilot) {
     var screenRightBorder = this.canvas.width;
     function pointInCircle(x, y, cx, cy, radius) {
         //x,y points to check
@@ -91,15 +91,15 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
     }
     //If touches platform
     else if (this.ballTouchesLine(platformX-5,platformY,platformX+platformSize+5,platformY,this.x,this.y,this.radius)) {
-            this.bounce('platform', platformDirection);
+            this.bounce('platform', platformDirection,autoPilot);
     }
 }
 
-Ball.prototype.bounce = function (bouncedFrom, platformDirection) {
+Ball.prototype.bounce = function (bouncedFrom, platformDirection, autoPilot) {
     switch (bouncedFrom) {
         case 'top':
         case 'platform':
-            if ((this.speedX > 0 && platformDirection < 0) || (this.speedX < 0 && platformDirection >0)) {
+            if (((this.speedX > 0 && platformDirection < 0) || (this.speedX < 0 && platformDirection >0)) && !autoPilot) {
                 this.speedX = -(this.speedX);
             }
         case 'bottom':

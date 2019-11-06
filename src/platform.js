@@ -13,6 +13,7 @@ function Platform (canvas, lives) {
     this.sectionSize = 30; //size divided by 3 so 3 sections
     this.color = 'red';
     this.rocketImg = new Image();
+    this.autoPilotSwitch = false;
 }
 
 // setDirection()
@@ -80,8 +81,16 @@ Platform.prototype.livesRemaining = function () {
   else return false;
 }
 Platform.prototype.autoPilot = function(ballX) {
+  //var prevX = this.x;
   this.x = ballX-this.width/2;
+  //if (prevX - this.X < 0) this.setDirection('left');
+  //else this.setDirection('right');
+  
 }
 Platform.prototype.getDirection = function () {
   return this.direction;
+}
+Platform.prototype.activateAutoPilot = function (boolean) {
+  console.log(boolean);
+  this.autoPilotSwitch = boolean;
 }
