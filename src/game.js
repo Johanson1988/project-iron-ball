@@ -109,7 +109,7 @@ Game.prototype.startLoop = function () {
         this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
       }
       if (this.ball.getBallIsLaunched()) {
-        //this.platform.autoPilot(this.ball.x);
+        this.platform.autoPilot(this.ball.x);
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction);
 
         //avoid checking brick collisions if the ball isn't in the area to save CPU
