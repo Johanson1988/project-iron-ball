@@ -65,8 +65,8 @@ Game.prototype.start = function() {
     this.canvas,
     this.platform.x+this.platform.width/2,
     this.platform.y-10, //se le resta el radio
-    -3.0,
-    -3.0);
+    -4.0,
+    -4.0);
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
