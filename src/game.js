@@ -15,7 +15,7 @@ function Game () {
 
 //Canvas Background
 var img = new Image();
-img.src = './images/test-2.png'
+img.src = './images/space-background.png'
 
 var backgroundImage = {
   img: img,
@@ -121,6 +121,7 @@ Game.prototype.startLoop = function () {
         if (this.platform.autoPilotSwitch) {
           this.platform.autoPilot(this.ball.x);
         }
+        backgroundImage.move(this.canvas);
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
 
         //avoid checking brick collisions if the ball isn't in the area to save CPU
@@ -135,7 +136,7 @@ Game.prototype.startLoop = function () {
       }
       this.ball.updatePosition(this.platform.x+this.platform.width/2);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      backgroundImage.move(this.canvas);
+      
       backgroundImage.draw(this.canvas,this.ctx);
       this.platform.draw();
       this.ball.draw();
