@@ -10,7 +10,7 @@ function Game () {
     this.bricksArray = [];
     this.chronometer = null;
     this.lastBrickY = null;
-    this.totalBricks = 30;
+    this.totalBricks = 40;
 }
 
 //Canvas Background
@@ -65,8 +65,8 @@ Game.prototype.start = function() {
     this.canvas,
     this.platform.x+this.platform.width/2,
     this.platform.y-10, //se le resta el radio
-    -4.0,
-    -4.0);
+    -3.5,
+    -3.5);
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
@@ -240,14 +240,14 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
 }
 Game.prototype.generateBricks = function (totalBricks) {
   //Create bricks
-  var totalWidth = random(20,50);
-  var brickGap = 3;
+  var totalWidth = random(30,80);
+  var brickGap = 4
   var totalHeight = 80;
   for (var i=0;i<=totalBricks;i++) {                 //Cambiar este index para generar más ladrillos
     var width = random(30,90);
     if (totalWidth + width >= this.canvas.width) {
       totalWidth = random(5,20);
-      totalHeight += random(16,30);
+      totalHeight += random(25,60);
     }
     var brick = new Brick(this.canvas, totalWidth, totalHeight, width);
     totalWidth += brickGap + brick.width;

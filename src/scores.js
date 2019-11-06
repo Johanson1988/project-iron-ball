@@ -17,7 +17,10 @@ Scores.prototype.sortScores = function() {
 }
 
 Scores.prototype.getScores = function () {
-    return this.topScores;
+
+    return this.topScores.filter(function(element,index) {
+        if (index < 9) return true;
+    });
 }
 
 Scores.prototype.saveToLocalStorage = function () {

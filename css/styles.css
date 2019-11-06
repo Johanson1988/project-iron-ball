@@ -15,6 +15,8 @@ html {
 		background-size: cover;
     background-position: center;
     background-color: darkblue;
+    font-family: 'Press Start 2P', cursive;
+
     
 
   }
@@ -22,8 +24,91 @@ html {
 
 
 main {
-  color: red;
+  
 }
+main h1 {
+  color: orange;
+  font-size:5em;
+  margin: 0 auto;
+  border: 5px solid orange;
+  width: min-content;
+  padding: 30px 90px;
+  margin-top: 15%;
+}
+
+.buttons-container {
+  display:flex;
+  justify-content: space-evenly;
+  align-content: center;
+  border: 3px solid black;
+  padding: 10%;
+}
+
+button {
+	background: orange;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  font-size: 30px;
+  padding: 20px;
+  font-family: 'Press Start 2P', cursive;
+  text-decoration: none;
+  color: white;
+  box-shadow: inset -4px -4px 0px 0px orange;
+}
+button:hover, button:focus {
+  background: #ec7e17;
+  box-shadow: inset -6px -6px 0px 0px orange;
+}
+button:active {
+  box-shadow: inset 4px 4px 0px 0px orange;
+}
+button:before, button:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: content-box;
+}
+button:before {
+  top: -6px;
+  left: 0;
+  border-top: 6px black solid;
+  border-bottom: 6px black solid;
+}
+button:after {
+  left: -6px;
+  top: 0;
+  border-left: 6px black solid;
+  border-right: 6px black solid;
+}
+button--reset {
+  background: #E76E55;
+  box-shadow: inset -4px -4px 0px 0px #8C2022;
+}
+button--reset:hover, button--reset:focus {
+  background: #CE372B;
+  box-shadow: inset -6px -6px 0px 0px #8C2022;
+}
+button--reset:active {
+  box-shadow: inset 4px 4px 0px 0px #8C2022;
+}
+button--proceed {
+  background: #F7D51D;
+  box-shadow: inset -4px -4px 0px 0px #E59400;
+}
+button--proceed:hover, button--proceed:focus {
+  background: #F2C409;
+  box-shadow: inset -6px -6px 0px 0px #E59400;
+}
+button--proceed:active {
+  box-shadow: inset 4px 4px 0px 0px #E59400;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 
 div.canvas-container {
   

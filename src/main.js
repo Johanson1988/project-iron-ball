@@ -31,10 +31,12 @@ function main() {
     var title = htmlElementGenerator('h1','IronBall');
     var newGame = htmlElementGenerator('button','NEW GAME');
     var topScores = htmlElementGenerator('button', 'TOP SCORES');
+    var buttonsContainer = htmlElementGenerator('div','','buttons-container');
     
     splashScreen.appendChild(title);
-    splashScreen.appendChild(newGame);
-    splashScreen.appendChild(topScores);
+    buttonsContainer.appendChild(newGame);
+    buttonsContainer.appendChild(topScores);
+    splashScreen.appendChild(buttonsContainer);
 
     newGame.addEventListener('click', function() {
       startGame();
@@ -99,7 +101,7 @@ function main() {
     var gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
     var playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
     gameOverButtonsContainer.appendChild(playAgainButton);
-    var returnMainButton = htmlElementGenerator('button','Return to main screen','return-main-btn');
+    var returnMainButton = htmlElementGenerator('button','Return','return-main-btn');
     gameOverButtonsContainer.appendChild(returnMainButton);
     gameOverContainer.appendChild(gameOverButtonsContainer);
 
