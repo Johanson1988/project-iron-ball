@@ -76,13 +76,11 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
         this.y = 30;
         this.speedY = (this.speedY);
         this.speedX = -(this.speedX);
-        console.log('corner');
         this.wallAudio.play();
 
     }else if ((this.x + this.speedX === 1) && (this.y + this.speedY === 1)) {
         this.speedY = -(this.speedY);
         this.speedX = -(this.speedX);
-        console.log('corner');
         this.wallAudio.play();
 
     }else if(this.x > 1000) {
@@ -151,15 +149,12 @@ Ball.prototype.checkOutside = function() {
         this.y = 20;
         this.speedX = Math.abs(this.speedX) * -1;
         this.speedY = Math.abs(this.speedY) * -1;
-        console.log('caso B');
     }
     if ((this.y>498) && (Math.floor(this.y) === Math.floor(this.prevYprevY))) {
         this.speedY = Math.abs(this.speedY) * -1;
         this.y = 480;
-        console.log('caso D');
     }else if(500-this.y+this.prevY-this.prevYprevY < 30) {
         this.speedY = Math.abs(this.speedY) * -1;
-        console.log('caso E');
     }
 }
 
