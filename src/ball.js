@@ -12,6 +12,7 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.launched = false;
     this.fallen = false;
     this.image = new Image();
+    this.wallAudio = new Audio('../audio/wall-sound.wav');
     //will add random to be launch to one direction or other
 }
 Ball.prototype.setSpeeds = function(speedX, speedY) {
@@ -32,30 +33,12 @@ Ball.prototype.increaseSpeed = function(autoPilotSwitch) {
     else this.speedY += -1*incSpeedY;
 }
 
-/* 
-var image = new Image();
-image.src = /*image url;
-image.onload = function() {
-    context.save();
-    context.globalCompositeOperation = 'source-in';
-    context.drawImage(image, 0, 0);
-    context.restore();
-};
-*/
-
 Ball.prototype.draw = function() {
     this.ctx.beginPath();
     
     this.ctx.fillStyle = this.color;
     this.ctx.arc(this.x, this.y, this.radius, 0, (Math.PI) * 2);    
     this.ctx.fill();
-     /*this.image.src = ('../images/asteroid_resized.png');
-
-    this.ctx.save();
-    this.ctx.globalCompositeOperation = 'source-over';
-    this.ctx.drawImage(this.image, this.x, this.y);
-    this.ctx.restore(); */
-    
     this.ctx.closePath();
 }
 Ball.prototype.launchBall = function (launched) {
@@ -86,14 +69,17 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
 
     if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
         this.bounce('left');
+        this.wallAudio.play();
     }
     //if ball touches right wall
     else if (pointInCircle(screenRightBorder,this.y, this.x,this.y, this.radius)) {
         this.bounce('right');
+        this.wallAudio.play();
     }
     //If ball touches top wall
     else if (pointInCircle(this.x,0, this.x,this.y, this.radius)) {
         this.bounce('top');
+        this.wallAudio.play();
     }
     //If touches platform
     else if (this.ballTouchesLine(platformX-5,platformY,platformX+platformSize+5,platformY,this.x,this.y,this.radius)) {

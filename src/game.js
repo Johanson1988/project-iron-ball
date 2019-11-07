@@ -1,17 +1,20 @@
 'use strict';
 
 function Game () {
-    this.canvas = null;
-    this.ctx = null;
-    this.platform= null;
-    this.gameIsOver = false;
-    this.ball = null;
-    this.gameScreen = null;
-    this.bricksArray = [];
-    this.chronometer = null;
-    this.lastBrickY = null;
-    this.totalBricks = 40;
+  this.canvas = null;
+  this.ctx = null;
+  this.platform= null;
+  this.gameIsOver = false;
+  this.ball = null;
+  this.gameScreen = null;
+  this.bricksArray = [];
+  this.chronometer = null;
+  this.lastBrickY = null;
+  this.totalBricks = 40;
+  this.gameAudio = new Audio('../audio/Chiptronical.ogg');
+  this.brickAudio = new Audio('../audio/brick-sound.wav');
 }
+
 
 //Canvas Background
 var img = new Image();
@@ -122,6 +125,7 @@ Game.prototype.startLoop = function () {
           this.platform.autoPilot(this.ball.x);
         }
         backgroundImage.move(this.canvas);
+        this.gameAudio.play();
         this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
 
         //avoid checking brick collisions if the ball isn't in the area to save CPU
@@ -147,6 +151,8 @@ Game.prototype.startLoop = function () {
         this.ball.increaseSpeed(this.platform.autoPilotSwitch);
       }
     }else {
+      this.gameAudio.pause();
+      this.gameAudio.currentTime = 0;
       this.chronometer.stopClick();
       this.platform.removeLife();      
       if (this.platform.livesRemaining()) {
@@ -220,23 +226,31 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
       ball.bounce('bottom');
       this.bricksArray.splice(index,1);
       this.platform.addPoints(100);
+      this.brickAudio.currentTime = 0;
+      this.brickAudio.play();
   //hits right border
   }else if (ball.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('right');
     this.bricksArray.splice(index,1);
     this.platform.addPoints(100);
+    this.brickAudio.currentTime = 0;
+    this.brickAudio.play();
   }
   //hits top border
   else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('top');
     this.bricksArray.splice(index,1);
     this.platform.addPoints(100);
+    this.brickAudio.currentTime = 0;
+    this.brickAudio.play();
   }
   //hits left border
   else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('left');
     this.bricksArray.splice(index,1);
     this.platform.addPoints(100);
+    this.brickAudio.currentTime = 0;
+    this.brickAudio.play();
   }
 }
 Game.prototype.generateBricks = function (totalBricks) {
