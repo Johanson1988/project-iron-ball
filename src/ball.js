@@ -13,6 +13,9 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.fallen = false;
     this.image = new Image();
     this.wallAudio = new Audio('./audio/wall-sound.wav');
+    this.prevY = null;
+    this.prevYprevY = null;
+    
     //will add random to be launch to one direction or other
 }
 Ball.prototype.setSpeeds = function(speedX, speedY) {
@@ -27,9 +30,9 @@ Ball.prototype.increaseSpeed = function(autoPilotSwitch) {
         incSpeedX = 0.009;
         incSpeedY = 0.009;
     }
-    if ((this.speedX >0) && (Math.abs(this.speedX < 11))) this.speedX += incSpeedX;
+    if ((this.speedX >0) && (Math.abs(this.speedX < 10))) this.speedX += incSpeedX;
     else this.speedX += -1*incSpeedX;
-    if ((this.speedY >0)  && (Math.abs(this.speedY < 13))) this.speedY += incSpeedY;
+    if ((this.speedY >0)  && (Math.abs(this.speedY < 11))) this.speedY += incSpeedY;
     else this.speedY += -1*incSpeedY;
 }
 
@@ -51,6 +54,8 @@ Ball.prototype.getBallIsLaunched = function () {
 Ball.prototype.updatePosition = function (platformNewX) {
     if (!this.launched) this.x = platformNewX;
     else {
+        this.prevYprevY = this.prevY;
+        this.prevY = this.y;
         this.x += this.speedX;
         this.y += this.speedY;
     }
@@ -66,25 +71,45 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
       }
     var screenRightBorder = this.canvas.width;
     //If ball touches left wall
+    if ((this.x + this.speedX === 999) && (this.y + this.speedY === 1) ) {
+        this.x = 980;
+        this.y = 30;
+        this.speedY = (this.speedY);
+        this.speedX = -(this.speedX);
+        console.log('corner');
+        this.wallAudio.play();
 
-    if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
-        this.bounce('left');
+    }else if ((this.x + this.speedX === 1) && (this.y + this.speedY === 1)) {
+        this.speedY = -(this.speedY);
+        this.speedX = -(this.speedX);
+        console.log('corner');
         this.wallAudio.play();
+
+    }else if(this.x > 1000) {
+        this.x =990;
     }
-    //if ball touches right wall
-    else if (pointInCircle(screenRightBorder,this.y, this.x,this.y, this.radius)) {
-        this.bounce('right');
-        this.wallAudio.play();
+    else {
+        if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
+            this.bounce('left');
+            this.wallAudio.play();
+        }
+        //if ball touches right wall
+        else if (pointInCircle(screenRightBorder,this.y, this.x,this.y, this.radius)) {
+            this.bounce('right');
+            this.wallAudio.play();
+        }
+        //If ball touches top wall
+        else if (pointInCircle(this.x,0, this.x,this.y, this.radius)) {
+            this.bounce('top');
+            this.wallAudio.play();
+        }
+        //If touches platform
+        else if (this.ballTouchesLine(platformX-5,platformY,platformX+platformSize+5,platformY,this.x,this.y,this.radius)) {
+                this.bounce('platform', platformDirection,autoPilot);
+        }
     }
-    //If ball touches top wall
-    else if (pointInCircle(this.x,0, this.x,this.y, this.radius)) {
-        this.bounce('top');
-        this.wallAudio.play();
-    }
-    //If touches platform
-    else if (this.ballTouchesLine(platformX-5,platformY,platformX+platformSize+5,platformY,this.x,this.y,this.radius)) {
-            this.bounce('platform', platformDirection,autoPilot);
-    }
+    
+    
 }
 
 Ball.prototype.bounce = function (bouncedFrom, platformDirection, autoPilot) {
@@ -101,6 +126,40 @@ Ball.prototype.bounce = function (bouncedFrom, platformDirection, autoPilot) {
         case 'left':
             this.speedX = -(this.speedX);
             break;
+    }
+}
+
+
+
+Ball.prototype.checkOutside = function() {
+   /* if ((this.x < 0) && (this.y < 0)) {
+        this.x = 1;
+        this.y = 1;
+        this.speedX = Math.abs(this.speedX);
+        this.speedY = Math.abs(this.speedY) * -1;
+        console.log('caso A');
+    }
+    else if ((this.x === 999) && (this.y ===1)) {
+        this.x = 990;
+        this.y = 10;
+        this.speedX = Math.abs(this.speedX) * -1;
+        this.speedY = Math.abs(this.speedY) * -1;
+        console.log('caso C');
+    }*/
+    if ((this.y <= 1)) {
+        this.x = this.canvas.width -30;
+        this.y = 20;
+        this.speedX = Math.abs(this.speedX) * -1;
+        this.speedY = Math.abs(this.speedY) * -1;
+        console.log('caso B');
+    }
+    if ((this.y>498) && (Math.floor(this.y) === Math.floor(this.prevYprevY))) {
+        this.speedY = Math.abs(this.speedY) * -1;
+        this.y = 480;
+        console.log('caso D');
+    }else if(500-this.y+this.prevY-this.prevYprevY < 30) {
+        this.speedY = Math.abs(this.speedY) * -1;
+        console.log('caso E');
     }
 }
 

@@ -91,7 +91,6 @@ Game.prototype.start = function() {
     }else if (event.keyCode === 16) {
       if (this.pause) this.pause = false;
       else this.pause = true;
-      console.log(this.pause);
     }
   };
 
@@ -105,7 +104,6 @@ Game.prototype.startLoop = function () {
   
   var loop = function() {
     if (this.pause === false) {
-      console.log('Game running');
       this.ball.fall();
       var time = document.querySelector('.time .value');
       time.innerHTML = this.chronometer.setTime();
@@ -131,8 +129,10 @@ Game.prototype.startLoop = function () {
           }
           backgroundImage.move(this.canvas);
           this.gameAudio.play();
+          this.ball.checkOutside();
           this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
-
+          
+          
           //avoid checking brick collisions if the ball isn't in the area to save CPU
           
           if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius*3)) {
@@ -168,7 +168,6 @@ Game.prototype.startLoop = function () {
       }
       this.platform.updateLives();
       }else {
-        console.log('Game not running');
         this.gameAudio.pause();
         this.chronometer.stopClick();
       }
