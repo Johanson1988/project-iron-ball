@@ -102,6 +102,7 @@ function main() {
     var playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
     gameOverButtonsContainer.appendChild(playAgainButton);
     var returnMainButton = htmlElementGenerator('button','Return','return-main-btn');
+    
     gameOverButtonsContainer.appendChild(returnMainButton);
     gameOverContainer.appendChild(gameOverButtonsContainer);
 
@@ -158,12 +159,15 @@ function main() {
     });
 
     scoresScreen.appendChild(listContainer);
-    var returnButton = htmlElementGenerator('button','Return to main screen');
-    scoresScreen.appendChild(returnButton);
+    var returnMainContainer = htmlElementGenerator('div','',);
+    var returnButton = htmlElementGenerator('button','Return to main screen','','return-main');
+    returnMainContainer.appendChild(returnButton);
+    scoresScreen.appendChild(returnMainContainer);
     document.body.appendChild(scoresScreen);
 
     returnButton.addEventListener('click', function() {
       scoresScreen.remove();
+      
       buildSplashScreen();
     });
   }

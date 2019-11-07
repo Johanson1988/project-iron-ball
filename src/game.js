@@ -178,6 +178,7 @@ Game.prototype.removeGameScreen = function () {
 Game.prototype.showGameOverScreen = function () {
   var gameOverScreen = document.querySelector('.game-over-hidden');
   gameOverScreen.classList.remove('game-over-hidden');
+  
   var scores = document.querySelector('.final-score .value');
   scores.innerHTML = this.platform.getPoints();
 };
