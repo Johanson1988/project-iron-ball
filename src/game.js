@@ -129,7 +129,7 @@ Game.prototype.startLoop = function () {
           }
           backgroundImage.move(this.canvas);
           this.gameAudio.play();
-          this.ball.checkOutside();
+          this.ball.checkOutside(this.platform.x,this.platform.width);
           this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
           
           

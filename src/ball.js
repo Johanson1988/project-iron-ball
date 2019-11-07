@@ -129,7 +129,7 @@ Ball.prototype.bounce = function (bouncedFrom, platformDirection, autoPilot) {
 
 
 
-Ball.prototype.checkOutside = function() {
+Ball.prototype.checkOutside = function(platformX, platformSize) {
    /* if ((this.x < 0) && (this.y < 0)) {
         this.x = 1;
         this.y = 1;
@@ -150,10 +150,10 @@ Ball.prototype.checkOutside = function() {
         this.speedX = Math.abs(this.speedX) * -1;
         this.speedY = Math.abs(this.speedY) * -1;
     }
-    if ((this.y>498) && (Math.floor(this.y) === Math.floor(this.prevYprevY))) {
+    if ((this.y>498) && (Math.floor(this.y) === Math.floor(this.prevYprevY)) && ((this.x >platformX) &&(this.x<platformX+platformSize))) {
         this.speedY = Math.abs(this.speedY) * -1;
         this.y = 480;
-    }else if(500-this.y+this.prevY-this.prevYprevY < 30) {
+    }else if((500-this.y+this.prevY-this.prevYprevY < 30) && ((this.x >platformX) &&(this.x<platformX+platformSize))) {
         this.speedY = Math.abs(this.speedY) * -1;
     }
 }
