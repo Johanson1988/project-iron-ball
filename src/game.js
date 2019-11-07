@@ -13,6 +13,7 @@ function Game () {
   this.totalBricks = 40;
   this.gameAudio = new Audio('../audio/Chiptronical.ogg');
   this.brickAudio = new Audio('../audio/brick-sound.wav');
+  this.pause = false;
 }
 
 
@@ -85,10 +86,12 @@ Game.prototype.start = function() {
       this.chronometer.startClick();
     }else if (event.keyCode === 81) {
       this.platform.activateAutoPilot(true);
-      console.log('autopilot activated');
-    }else if(event.keyCode ===80) {
+    }else if(event.keyCode === 80) {
       this.platform.activateAutoPilot(false);
-      console.log('autopilot deactivated');
+    }else if (event.keyCode === 16) {
+      if (this.pause) this.pause = false;
+      else this.pause = true;
+      console.log(this.pause);
     }
   };
 
@@ -101,69 +104,76 @@ Game.prototype.start = function() {
 Game.prototype.startLoop = function () {
   
   var loop = function() {
-    this.ball.fall();
-    var time = document.querySelector('.time .value');
-    time.innerHTML = this.chronometer.setTime();
-    if (!this.ball.getBallIsLaunched()) {
-      if ((this.platform.getDirection() > 0 && this.ball.getSpeedX() < 0)
-          || (this.platform.getDirection() < 0 && this.ball.getSpeedX() > 0))
-        this.ball.setSpeeds(this.ball.getSpeedX*-1);
-    }
-    if (!this.ball.isFallen()) {
-      this.platform.handleScreenCollision();
-      if (this.bricksArray.length === 0) {
-        this.lastBrickY = this.generateBricks(this.totalBricks);
-        if (!this.platform.autoPilotSwitch) {
-          this.ball.launchBall(false);
-          this.chronometer.stopClick();
-          this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
-        }
-        
+    if (this.pause === false) {
+      console.log('Game running');
+      this.ball.fall();
+      var time = document.querySelector('.time .value');
+      time.innerHTML = this.chronometer.setTime();
+      if (!this.ball.getBallIsLaunched()) {
+        if ((this.platform.getDirection() > 0 && this.ball.getSpeedX() < 0)
+            || (this.platform.getDirection() < 0 && this.ball.getSpeedX() > 0))
+          this.ball.setSpeeds(this.ball.getSpeedX*-1);
       }
-      if (this.ball.getBallIsLaunched()) {
-        if (this.platform.autoPilotSwitch) {
-          this.platform.autoPilot(this.ball.x);
-        }
-        backgroundImage.move(this.canvas);
-        this.gameAudio.play();
-        this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
-
-        //avoid checking brick collisions if the ball isn't in the area to save CPU
-        
-        if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius*3)) {
+      if (!this.ball.isFallen()) {
+        this.platform.handleScreenCollision();
+        if (this.bricksArray.length === 0) {
+          this.lastBrickY = this.generateBricks(this.totalBricks);
+          if (!this.platform.autoPilotSwitch) {
+            this.ball.launchBall(false);
+            this.chronometer.stopClick();
+            this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
+          }
           
-          this.bricksArray.forEach(function (brick,index) {
-            this.handleBrickCollisions(this.ball,brick,index);
-            }.bind(this));
         }
-        this.platform.updatePoints();
+        if (this.ball.getBallIsLaunched()) {
+          if (this.platform.autoPilotSwitch) {
+            this.platform.autoPilot(this.ball.x);
+          }
+          backgroundImage.move(this.canvas);
+          this.gameAudio.play();
+          this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
+
+          //avoid checking brick collisions if the ball isn't in the area to save CPU
+          
+          if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius*3)) {
+            
+            this.bricksArray.forEach(function (brick,index) {
+              this.handleBrickCollisions(this.ball,brick,index);
+              }.bind(this));
+          }
+          this.platform.updatePoints();
+        }
+        this.ball.updatePosition(this.platform.x+this.platform.width/2);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        backgroundImage.draw(this.canvas,this.ctx);
+        this.platform.draw();
+        this.ball.draw();
+        this.bricksArray.forEach(function(brick){
+          brick.draw();
+        });
+        if (this.ball.getBallIsLaunched()) {
+          this.ball.increaseSpeed(this.platform.autoPilotSwitch);
+        }
+      }else {
+        this.gameAudio.pause();
+        this.gameAudio.currentTime = 0;
+        this.chronometer.stopClick();
+        this.platform.removeLife();      
+        if (this.platform.livesRemaining()) {
+          this.platform.returnToInitialPosition();
+          this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
+            this.platform.y-10);
+        }else this.setGameOver();
       }
-      this.ball.updatePosition(this.platform.x+this.platform.width/2);
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      
-      backgroundImage.draw(this.canvas,this.ctx);
-      this.platform.draw();
-      this.ball.draw();
-      this.bricksArray.forEach(function(brick){
-        brick.draw();
-      });
-      if (this.ball.getBallIsLaunched()) {
-        this.ball.increaseSpeed(this.platform.autoPilotSwitch);
+      this.platform.updateLives();
+      }else {
+        console.log('Game not running');
+        this.gameAudio.pause();
+        this.chronometer.stopClick();
       }
-    }else {
-      this.gameAudio.pause();
-      this.gameAudio.currentTime = 0;
-      this.chronometer.stopClick();
-      this.platform.removeLife();      
-      if (this.platform.livesRemaining()) {
-        this.platform.returnToInitialPosition();
-        this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
-          this.platform.y-10);
-      }else this.setGameOver();
-    }
-    this.platform.updateLives();
-    if (!this.gameIsOver) window.requestAnimationFrame(loop);
-  }.bind(this);
+      if (!this.gameIsOver) window.requestAnimationFrame(loop);
+    }.bind(this);
 
   window.requestAnimationFrame(loop);
 } ;
