@@ -12,7 +12,7 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.launched = false;
     this.fallen = false;
     this.image = new Image();
-    this.wallAudio = new Audio('../audio/wall-sound.wav');
+    this.wallAudio = new Audio('./audio/wall-sound.wav');
     //will add random to be launch to one direction or other
 }
 Ball.prototype.setSpeeds = function(speedX, speedY) {

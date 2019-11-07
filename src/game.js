@@ -11,8 +11,8 @@ function Game () {
   this.chronometer = null;
   this.lastBrickY = null;
   this.totalBricks = 40;
-  this.gameAudio = new Audio('../audio/Chiptronical.ogg');
-  this.brickAudio = new Audio('../audio/brick-sound.wav');
+  this.gameAudio = new Audio('./audio/Chiptronical.ogg');
+  this.brickAudio = new Audio('./audio/brick-sound.wav');
   this.pause = false;
 }
 
@@ -291,6 +291,7 @@ Game.prototype.increaseTotalBricks = function() {
 Game.prototype.getPoints = function () {
   return this.platform.getPoints();
 }
+
 
 // start calling updateCanvas once the image is loaded
 //img.onload = updateCanvas;
