@@ -19,8 +19,6 @@ html {
   }
 
 
-
-
 main h1 {
   color: orange;
   font-size:5em;
@@ -144,16 +142,43 @@ section.game-info-container {
 
 .game-over {
   position: absolute;
-  left: 25%;
-  top: 15%;
+  left: 21.5%;
+  top: 6%;
   color: red;
   background-color: white;
-  width: 50%;
-  height: 70%;
+  width: 950px;
+  height: 550px;
+  text-align: center;
+  font-size: 2em;
+  background-image: url(../images/game-over.jpg);
+  background-repeat: no-repeat;
+	background-size: cover;
+  background-position: center;
+  background-color: darkblue;
+  padding: 30px;
+}
+.game-over h1{
+  font-size: 2em;
+  width: fit-content;
+  color: red;
+  border-color:red;
+  padding-top: -50px;
 }
 .game-over-hidden {
   display:none;
 }
+
+.game-over div {
+  margin-top: 30px;
+}
+.game-over button {
+  padding-right: 20px;
+}
+.game-over-buttons-container {
+  display: flex;
+  justify-content: space-around;
+}
+
 
 .score-screen div {
   background-color: orange;
@@ -162,8 +187,8 @@ section.game-info-container {
   width:fit-content;
   padding:1%;
   margin: 0 auto;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin-top: 2%;
+  margin-bottom: 1%;
 }
 li {
   list-style-type: none;

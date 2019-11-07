@@ -127,6 +127,8 @@ function main() {
       game.removeGameScreen();
   }
   function savePlayerScore (name, score) {
+    if (name==='') name='Empty';
+    name.toUpperCase();
     topScoresList.addNewScore({name:name,score:score});
     topScoresList.saveToLocalStorage();
   }
