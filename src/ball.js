@@ -21,11 +21,11 @@ Ball.prototype.setSpeeds = function(speedX, speedY) {
 }
 
 Ball.prototype.increaseSpeed = function(autoPilotSwitch) {
-    var incSpeedX = 0.001;
-    var incSpeedY = 0.001;
+    var incSpeedX = 0.003;
+    var incSpeedY = 0.003;
     if (autoPilotSwitch) {
-        incSpeedX = 0.05;
-        incSpeedY = 0.05;
+        incSpeedX = 0.009;
+        incSpeedY = 0.009;
     }
     if ((this.speedX >0) && (Math.abs(this.speedX < 11))) this.speedX += incSpeedX;
     else this.speedX += -1*incSpeedX;
