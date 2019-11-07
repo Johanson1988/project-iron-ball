@@ -66,12 +66,12 @@ function main() {
       lifeContainer.appendChild(htmlElementGenerator('span','','value'));
       
       var timeContainer = htmlElementGenerator('div','','time');
-      timeContainer.appendChild(htmlElementGenerator('span','Time: ','label'));
+      timeContainer.appendChild(htmlElementGenerator('span','','label'));
       timeContainer.appendChild(htmlElementGenerator('span','','value'));
 
       var pointsContainer = htmlElementGenerator('div', '', 'points');
-      pointsContainer.appendChild(htmlElementGenerator('span','Points: ','label'));
-      pointsContainer.appendChild(htmlElementGenerator('span','','value'));
+      pointsContainer.appendChild(htmlElementGenerator('span','','label'));
+      pointsContainer.appendChild(htmlElementGenerator('span','0','value'));
       gameInfoContainer.appendChild(lifeContainer);
       gameInfoContainer.appendChild(timeContainer);
       gameInfoContainer.appendChild(pointsContainer);

@@ -24,7 +24,6 @@ html {
 
 
 main {
-  
 }
 main h1 {
   color: orange;
@@ -40,7 +39,6 @@ main h1 {
   display:flex;
   justify-content: space-evenly;
   align-content: center;
-  border: 3px solid black;
   padding: 10%;
 }
 
@@ -110,37 +108,45 @@ button--proceed:active {
 }
 
 
-div.canvas-container {
-  
-  height: 600px;
+div.canvas-container { 
+  margin-top:1%;
   width: 1000px;
   margin: 0 auto;
-  
+  background-color: black;
 }
 canvas {
   border: 10px solid orange;
+  height: 600px;
+  width: 1000px;
 }
 
 section.game-info-container {
-  border: 3px solid brown;
-}
-
-div.lives {
-  border: 1px solid red;
-}
-
-div.time {
-  border: 1px solid blue;  
-}
-
-div.points {
-  border: 1px solid green;
-}
-
-.game-info-container {
+  border: 10px solid orange;
+  display:flex;
+  height: 100px;
+  width: 1000px;
+  margin:0 auto;
+  margin-top:50px;
   display:flex;
   justify-content: space-evenly;
+  padding:0;
+  background-color: orange;
+  text-align: center;
+
+  
 }
+
+.game-info-container div {
+  border: 10px solid orange;
+  height: 100%;
+  width: 34%;
+  background-color: orange;
+  font-size: 2em;
+  
+
+}
+
+
 .game-over {
   position: absolute;
   left: 25%;
