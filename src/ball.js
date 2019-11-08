@@ -15,6 +15,7 @@ function Ball (canvas,x,y,speedX,speedY) {
     this.wallAudio = new Audio('./audio/wall-sound.wav');
     this.prevY = null;
     this.prevYprevY = null;
+    this.audioOutside = new Audio('./audio/smb_pipe.wav');
     
     //will add random to be launch to one direction or other
 }
@@ -77,14 +78,20 @@ Ball.prototype.handleWallCollisions = function(platformX, platformY, platformSiz
         this.speedY = (this.speedY);
         this.speedX = -(this.speedX);
         this.wallAudio.play();
+        this.audioOutside= currentTime =0;
+        this.audioOutside.play();
 
     }else if ((this.x + this.speedX === 1) && (this.y + this.speedY === 1)) {
         this.speedY = -(this.speedY);
         this.speedX = -(this.speedX);
         this.wallAudio.play();
+        this.audioOutside= currentTime =0;
+        this.audioOutside.play();
 
     }else if(this.x > 1000) {
         this.x =990;
+        this.audioOutside= currentTime =0;
+        this.audioOutside.play();
     }
     else {
         if (pointInCircle(0,this.y, this.x,this.y, this.radius)) {
@@ -156,6 +163,8 @@ Ball.prototype.checkOutside = function(platformX, platformSize) {
     }else if((500-this.y+this.prevY-this.prevYprevY < 30) && ((this.x >platformX) &&(this.x<platformX+platformSize))) {
         this.speedY = Math.abs(this.speedY) * -1;
     }
+    this.audioOutside.currentTime=0;
+    this.audioOutside.play();
 }
 
 Ball.prototype.ballTouchesLine = function (xInit,yInit,xEnd,yEnd,xBall,yBall,radiusBall) {
