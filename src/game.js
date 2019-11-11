@@ -1,49 +1,47 @@
 'use strict';
 
-function Game () {
-  this.canvas = null;
-  this.ctx = null;
-  this.platform= null;
-  this.gameIsOver = false;
-  this.ball = null;
-  this.gameScreen = null;
-  this.bricksArray = [];
-  this.chronometer = null;
-  this.lastBrickY = null;
-  this.totalBricks = 40;
-  this.gameAudio = new Audio('./audio/Chiptronical.ogg');
-  this.brickAudio = new Audio('./audio/brick-sound.wav');
-  this.pause = false;
-}
+class Game {
+  constructor() {
+    this.canvas = null;
+    this.ctx = null;
+    this.platform= null;
+    this.gameIsOver = false;
+    this.ball = null;
+    this.gameScreen = null;
+    this.bricksArray = [];
+    this.chronometer = null;
+    this.lastBrickY = null;
+    this.totalBricks = 40;
+    this.gameAudio = new Audio('./audio/Chiptronical.ogg');
+    this.brickAudio = new Audio('./audio/brick-sound.wav');
+    this.pause = false;
 
+    //Canvas Background
+    var img = new Image();
+    img.src = './images/space-background.png'
 
-//Canvas Background
-var img = new Image();
-img.src = './images/space-background.png'
+    this.backgroundImage = {
+      img: img,
+      y: 0,
+      speed: 17,
 
-var backgroundImage = {
-  img: img,
-  y: 0,
-  speed: 17,
+      move: function(canvas) {
+        this.y += this.speed;
+        this.y %= canvas.height;
+      },
 
-  move: function(canvas) {
-    this.y += this.speed;
-    this.y %= canvas.height;
-  },
+      draw: function(canvas,ctx) {
+        ctx.drawImage(this.img, 0, this.y);
+        if (this.speed < 0) {
+          ctx.drawImage(this.img, 0, this.y + canvas.height,canvas.width,canvas.height);
+        } else {
+          ctx.drawImage(this.img, 0, this.y - this.img.height,canvas.width,canvas.height);
+        }
+      },
+    };
+  }
 
-  draw: function(canvas,ctx) {
-    ctx.drawImage(this.img, 0, this.y);
-    if (this.speed < 0) {
-      ctx.drawImage(this.img, 0, this.y + canvas.height,canvas.width,canvas.height);
-    } else {
-      ctx.drawImage(this.img, 0, this.y - this.img.height,canvas.width,canvas.height);
-    }
-  },
-};
-
-
-
-Game.prototype.start = function() {
+  start () {
     // Save reference to canvas and container. Create ctx
   this.canvasContainer = document.querySelector('.canvas-container');
   this.canvas = this.gameScreen.querySelector('canvas');
@@ -95,13 +93,13 @@ Game.prototype.start = function() {
   };
 
   document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
-  
+
   // Start the canvas requestAnimationFrame loop
   this.startLoop();
-};
+  };
 
-Game.prototype.startLoop = function () {
-  
+  startLoop () {
+
   var loop = function() {
     if (this.pause === false) {
       this.ball.fall();
@@ -127,7 +125,7 @@ Game.prototype.startLoop = function () {
           if (this.platform.autoPilotSwitch) {
             this.platform.autoPilot(this.ball.x);
           }
-          backgroundImage.move(this.canvas);
+          this.backgroundImage.move(this.canvas);
           this.gameAudio.play();
           this.ball.checkOutside(this.platform.x,this.platform.width);
           this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
@@ -146,7 +144,7 @@ Game.prototype.startLoop = function () {
         this.ball.updatePosition(this.platform.x+this.platform.width/2);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        backgroundImage.draw(this.canvas,this.ctx);
+        this.backgroundImage.draw(this.canvas,this.ctx);
         this.platform.draw();
         this.ball.draw();
         this.bricksArray.forEach(function(brick){
@@ -175,30 +173,30 @@ Game.prototype.startLoop = function () {
     }.bind(this);
 
   window.requestAnimationFrame(loop);
-} ;
+  } ;
 
 
-Game.prototype.setGameOver = function () {
+  setGameOver () {
   this.gameIsOver = true;
   this.showGameOverScreen();
   this.onGameOverCallback();
-};
-Game.prototype.passGameOverCallback = function(callback) {
+  };
+  passGameOverCallback(callback) {
   this.onGameOverCallback = callback;
-};
+  };
 
-Game.prototype.removeGameScreen = function () {
+  removeGameScreen () {
   this.gameScreen.remove();
-};
-Game.prototype.showGameOverScreen = function () {
+  };
+  showGameOverScreen () {
   var gameOverScreen = document.querySelector('.game-over-hidden');
   gameOverScreen.classList.remove('game-over-hidden');
-  
+
   var scores = document.querySelector('.final-score .value');
   scores.innerHTML = this.platform.getPoints();
-};
+  };
 
-Game.prototype.restartGame = function () {
+  restartGame () {
   this.platform.lives = 1;    //Add set life
   this.gameIsOver = false;
   this.platform.points = 0;         //Add set points
@@ -211,9 +209,9 @@ Game.prototype.restartGame = function () {
   this.clearBricksArray();
   this.lastBrickY = this.generateBricks(this.totalBricks);
   this.startLoop();
-}
+  }
 
-Game.prototype.handleBrickCollisions = function(ball,brick,index) {
+  handleBrickCollisions(ball,brick,index) {
   var brickTopLeft = {
       x : brick.x,
       y : brick.y
@@ -261,8 +259,8 @@ Game.prototype.handleBrickCollisions = function(ball,brick,index) {
     this.brickAudio.currentTime = 0;
     this.brickAudio.play();
   }
-}
-Game.prototype.generateBricks = function (totalBricks) {
+  }
+  generateBricks (totalBricks) {
   //Create bricks
   var totalWidth = random(30,80);
   var brickGap = 4
@@ -280,17 +278,16 @@ Game.prototype.generateBricks = function (totalBricks) {
   }
   this.increaseTotalBricks();
   return totalHeight + brick.height;
-}
-Game.prototype.clearBricksArray = function () {
+  }
+  clearBricksArray () {
   this.bricksArray = [];
-}
-Game.prototype.increaseTotalBricks = function() {
+  }
+  increaseTotalBricks() {
   this.totalBricks +=10;
-}
-Game.prototype.getPoints = function () {
+  }
+  getPoints () {
   return this.platform.getPoints();
+  }
+  
+  
 }
-
-
-// start calling updateCanvas once the image is loaded
-//img.onload = updateCanvas;
