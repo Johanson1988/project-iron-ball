@@ -25,12 +25,12 @@ class Scores {
     
     saveToLocalStorage () {
         localStorage.clear();
-        var scoreStringified = JSON.stringify(this.topScores);
+        const scoreStringified = JSON.stringify(this.topScores);
         localStorage.setItem('score', scoreStringified);
     }
     loadFromLocalStorage () {
         if (localStorage.getItem('score')) {
-            var retrieved = localStorage.getItem('score');
+            const retrieved = localStorage.getItem('score');
             this.topScores = JSON.parse(retrieved);
         }    
     }  
