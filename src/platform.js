@@ -1,5 +1,6 @@
 'use strict';
-function Platform (canvas, lives) {
+class Platform  {
+  constructor(canvas, lives) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     this.x = 455; //half of totalCanvasSize - half of platform size;
@@ -14,83 +15,80 @@ function Platform (canvas, lives) {
     this.color = 'red';
     this.rocketImg = new Image();
     this.autoPilotSwitch = false;
-}
-
-// setDirection()
-
-Platform.prototype.setDirection = function(direction) {
+  }
+  setDirection (direction) {
     // +1 right  -1 left
     if (direction === 'left') this.direction = -1;
     else if (direction === 'right') this.direction = 1;
     this.move();
   };
+  move () {
+    this.x += this.direction * this.speed;
+  };
 
-Platform.prototype.move = function() {
-  this.x += this.direction * this.speed;
-};
-
-Platform.prototype.handleScreenCollision = function() {
-var screenLeftBorder = 0;
-var screenRightBorder = this.canvas.width;
+  handleScreenCollision () {
+  var screenLeftBorder = 0;
+  var screenRightBorder = this.canvas.width;
 
 
-if ((this.x + this.direction * this.speed) > screenRightBorder-this.width){
-  this.x = screenRightBorder - this.width;
-}
-//if it reaches the border it will not escape the screen
-else if (this.x < screenLeftBorder) this.x = 0;
-};
+  if ((this.x + this.direction * this.speed) > screenRightBorder-this.width){
+    this.x = screenRightBorder - this.width;
+  }
+  //if it reaches the border it will not escape the screen
+  else if (this.x < screenLeftBorder) this.x = 0;
+  };
 
-// removeLife()
+  // removeLife()
 
-Platform.prototype.removeLife = function() {
-    this.lives -= 1;
-};
-Platform.prototype.updateLives = function() {
-  document.querySelector('.lives .value').innerHTML = this.lives;
-}
+  removeLife () {
+      this.lives -= 1;
+  };
+  updateLives () {
+    document.querySelector('.lives .value').innerHTML = this.lives;
+  }
 
-Platform.prototype.draw = function() {
-  if (this.direction === 1) this.rocketImg.src = ('./images/rocketL.png');
-  else this.rocketImg.src = ('./images/rocketR.png');
-  // fillRect(x, y, width, height)
-  this.ctx.drawImage(this.rocketImg,
-    this.x,
-    this.y,
-    this.width,
-    this.height
-  );
-  
-};
-Platform.prototype.returnToInitialPosition = function() {
-  //half of totalCanvasSize - half of platform size;
-  this.x= this.canvas.width/2 - this.width/2;
-}
-Platform.prototype.addPoints = function (points) {
-  this.points += points;
-}
-Platform.prototype.updatePoints = function() {
-  var points = document.querySelector('.points .value');
-  points.innerHTML = this.points;
-}
-Platform.prototype.getPoints = function() {
-  return this.points;
-}
-Platform.prototype.livesRemaining = function () {
-  if (this.lives > 0) return true;
-  else return false;
-}
-Platform.prototype.autoPilot = function(ballX) {
-  //var prevX = this.x;
-  this.x = ballX-this.width/2;
-  //if (prevX - this.X < 0) this.setDirection('left');
-  //else this.setDirection('right');
-  
-}
-Platform.prototype.getDirection = function () {
-  return this.direction;
-}
-Platform.prototype.activateAutoPilot = function (boolean) {
-  console.log(boolean);
-  this.autoPilotSwitch = boolean;
+  draw () {
+    if (this.direction === 1) this.rocketImg.src = ('./images/rocketL.png');
+    else this.rocketImg.src = ('./images/rocketR.png');
+    // fillRect(x, y, width, height)
+    this.ctx.drawImage(this.rocketImg,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+    
+  };
+  returnToInitialPosition () {
+    //half of totalCanvasSize - half of platform size;
+    this.x= this.canvas.width/2 - this.width/2;
+  }
+  addPoints  (points) {
+    this.points += points;
+  }
+  updatePoints () {
+    var points = document.querySelector('.points .value');
+    points.innerHTML = this.points;
+  }
+  getPoints () {
+    return this.points;
+  }
+  livesRemaining  () {
+    if (this.lives > 0) return true;
+    else return false;
+  }
+  autoPilot (ballX) {
+    //var prevX = this.x;
+    this.x = ballX-this.width/2;
+    //if (prevX - this.X < 0) this.setDirection('left');
+    //else this.setDirection('right');
+    
+  }
+  getDirection  () {
+    return this.direction;
+  }
+  activateAutoPilot  (boolean) {
+    console.log(boolean);
+    this.autoPilotSwitch = boolean;
+  }
 }
