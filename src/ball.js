@@ -22,8 +22,8 @@ class Ball {
         if (speedY) this.speedY = speedY;
     }
     increaseSpeed (autoPilotSwitch) {
-        var incSpeedX = 0.003;
-        var incSpeedY = 0.003;
+        let incSpeedX = 0.003;
+        let incSpeedY = 0.003;
         if (autoPilotSwitch) {
             incSpeedX = 0.009;
             incSpeedY = 0.009;
@@ -58,14 +58,13 @@ class Ball {
     }
     
     handleWallCollisions (platformX, platformY, platformSize,platformDirection,autoPilot) {
-        var screenRightBorder = this.canvas.width;
+        const screenRightBorder = this.canvas.width;
         const pointInCircle = (x, y, cx, cy, radius) => {
             //x,y points to check
             //cx, cy points from the circle
-            var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
+            const distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
             return distancesquared <= radius * radius;
           }
-        var screenRightBorder = this.canvas.width;
         //If ball touches left wall
         if ((this.x + this.speedX === 999) && (this.y + this.speedY === 1) ) {
             this.x = 980;
@@ -161,28 +160,28 @@ class Ball {
     ballTouchesLine  (xInit,yInit,xEnd,yEnd,xBall,yBall,radiusBall) {
         //based from https://stackoverflow.com/questions/36523507/detection-and-response-ball-to-wall-collision-inside-any-polygon
         // calc delta distance: source point to line start
-        var dx=xBall-xInit;
-        var dy=yBall-yInit;
+        let dx=xBall-xInit;
+        let dy=yBall-yInit;
     
         // calc delta distance: line start to end
-        var dxx=xEnd-xInit;
-        var dyy=yEnd-yInit;
+        const dxx=xEnd-xInit;
+        const dyy=yEnd-yInit;
     
         // Calc position on line normalized between 0.00 & 1.00
         // == dot product divided by delta line distances squared
-        var t=(dx*dxx+dy*dyy)/(dxx*dxx+dyy*dyy);
+        const t=(dx*dxx+dy*dyy)/(dxx*dxx+dyy*dyy);
     
         // calc nearest pt on line
-        var x=xInit+dxx*t;
-        var y=yInit+dyy*t;
+        let x=xInit+dxx*t;
+        let y=yInit+dyy*t;
     
         // clamp results to being on the segment
         if(t<0){x=xInit;y=yInit;}
         if(t>1){x=xEnd;y=yEnd;}
     
         //return({ x:x, y:y, isOnSegment:(t>=0 && t<=1) });
-        var dx=xBall-x;
-        var dy=yBall-y
+        dx=xBall-x;
+        dy=yBall-y;
         return(dx*dx+dy*dy<radiusBall*radiusBall);
     }
     fall () {
