@@ -17,7 +17,7 @@ class Game {
     this.pause = false;
 
     //Canvas Background
-    var img = new Image();
+    const img = new Image();
     img.src = './images/space-background.png'
 
     this.backgroundImage = {
@@ -100,10 +100,10 @@ class Game {
 
   startLoop () {
 
-  var loop = () => {
+  const loop = () => {
     if (this.pause === false) {
       this.ball.fall();
-      var time = document.querySelector('.time .value');
+      const time = document.querySelector('.time .value');
       time.innerHTML = this.chronometer.setTime();
       if (!this.ball.getBallIsLaunched()) {
         if ((this.platform.getDirection() > 0 && this.ball.getSpeedX() < 0)
@@ -189,10 +189,10 @@ class Game {
   this.gameScreen.remove();
   };
   showGameOverScreen () {
-  var gameOverScreen = document.querySelector('.game-over-hidden');
+  const gameOverScreen = document.querySelector('.game-over-hidden');
   gameOverScreen.classList.remove('game-over-hidden');
 
-  var scores = document.querySelector('.final-score .value');
+  const scores = document.querySelector('.final-score .value');
   scores.innerHTML = this.platform.getPoints();
   };
 
@@ -212,19 +212,19 @@ class Game {
   }
 
   handleBrickCollisions(ball,brick,index) {
-  var brickTopLeft = {
+  const brickTopLeft = {
       x : brick.x,
       y : brick.y
   }
-  var brickTopRight = {
+  const brickTopRight = {
       x : brick.x+brick.width,
       y : brick.y
   }
-  var brickBottomLeft = {
+  const brickBottomLeft = {
       x : brick.x,
       y : brick.y+brick.height
   }
-  var brickBottomRight = {
+  const brickBottomRight = {
       x : brick.x + brick.width,
       y : brick.y + brick.height
   }
@@ -262,11 +262,11 @@ class Game {
   }
   generateBricks (totalBricks) {
   //Create bricks
-  var totalWidth = random(30,80);
-  var brickGap = 4
-  var totalHeight = 80;
-  for (var i=0;i<=totalBricks;i++) {                 //Cambiar este index para generar más ladrillos
-    var width = random(30,90);
+  let totalWidth = random(30,80);
+  const brickGap = 4
+  let totalHeight = 80;
+  for (let i=0;i<=totalBricks;i++) {                 //Cambiar este index para generar más ladrillos
+    const width = random(30,90);
     if (totalWidth + width >= this.canvas.width) {
       totalWidth = random(5,20);
       totalHeight += random(25,60);
