@@ -25,12 +25,12 @@ class Game {
       y: 0,
       speed: 17,
 
-      move: (canvas) => {
+      move: function(canvas) {
         this.y += this.speed;
         this.y %= canvas.height;
       },
 
-      draw: (canvas,ctx) => {
+      draw: function(canvas,ctx) {
         ctx.drawImage(this.img, 0, this.y);
         if (this.speed < 0) {
           ctx.drawImage(this.img, 0, this.y + canvas.height,canvas.width,canvas.height);
@@ -137,7 +137,7 @@ class Game {
             
             this.bricksArray.forEach((brick,index) => {
               this.handleBrickCollisions(this.ball,brick,index);
-              }.bind(this));
+              });
           }
           this.platform.updatePoints();
         }
@@ -170,7 +170,7 @@ class Game {
         this.chronometer.stopClick();
       }
       if (!this.gameIsOver) window.requestAnimationFrame(loop);
-    }.bind(this);
+    };
 
   window.requestAnimationFrame(loop);
   } ;
