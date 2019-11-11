@@ -27,8 +27,8 @@ class Platform  {
   };
 
   handleScreenCollision () {
-  var screenLeftBorder = 0;
-  var screenRightBorder = this.canvas.width;
+  const screenLeftBorder = 0;
+  const screenRightBorder = this.canvas.width;
 
 
   if ((this.x + this.direction * this.speed) > screenRightBorder-this.width){
@@ -67,7 +67,7 @@ class Platform  {
     this.points += points;
   }
   updatePoints () {
-    var points = document.querySelector('.points .value');
+    const points = document.querySelector('.points .value');
     points.innerHTML = this.points;
   }
   getPoints () {
@@ -78,7 +78,7 @@ class Platform  {
     else return false;
   }
   autoPilot (ballX) {
-    //var prevX = this.x;
+    //const prevX = this.x;
     this.x = ballX-this.width/2;
     //if (prevX - this.X < 0) this.setDirection('left');
     //else this.setDirection('right');
