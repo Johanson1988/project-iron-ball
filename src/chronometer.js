@@ -32,7 +32,7 @@ class Chronometer {
         return ('0' + num).slice(-2);
     };
     
-    setTime = function() {
+    setTime() {
          return `${this.setMinutes()}:${this.setSeconds()}:${this.setMilliseconds()}`;
     }
     

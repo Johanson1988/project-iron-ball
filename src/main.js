@@ -1,5 +1,5 @@
 'use strict';
-function htmlElementGenerator(elementTag,innerCode,elementClass,elementId) {
+const htmlElementGenerator = (elementTag,innerCode,elementClass,elementId) => {
     if (typeof elementTag === 'string' && elementTag.length >0) {
         var element = document.createElement(elementTag);
         if (typeof elementClass === 'string' && elementClass.length > 0) {
@@ -12,12 +12,12 @@ function htmlElementGenerator(elementTag,innerCode,elementClass,elementId) {
         return element;
     }else console.log('Element tag not valid');
 }
-function random(min,max) {
+const random = (min,max) => {
   var num = (Math.random()*(max-min)) + min;
   return num;
 }
 // Runs on initial start and contains calls all other functions that manage the game
-function main() {
+const main = () => {
   var game; // instance of the Game
   var splashScreen; // Start Screen
   var topScoresList = new Scores();
@@ -25,9 +25,8 @@ function main() {
     
   // -- splash screen
 
-  function buildSplashScreen() {
+  const buildSplashScreen = () => {
     splashScreen = htmlElementGenerator('main','','splash-screen-container');
-    
     var title = htmlElementGenerator('h1','IronBall');
     var newGame = htmlElementGenerator('button','NEW GAME');
     var topScores = htmlElementGenerator('button', 'TOP SCORES');
@@ -38,22 +37,22 @@ function main() {
     buttonsContainer.appendChild(topScores);
     splashScreen.appendChild(buttonsContainer);
 
-    newGame.addEventListener('click', function() {
+    newGame.addEventListener('click', () => {
       startGame();
     });
-    topScores.addEventListener('click', function() {
+    topScores.addEventListener('click', () => {
       showScores();
     });
     
     document.body.appendChild(splashScreen);
   }
 
-  function removeSplashScreen() {
+  const removeSplashScreen = () => {
       //Tested!
       splashScreen.remove();
   }
     
-  function buildGameScreen() {
+  const buildGameScreen = () => {
       
       var gameContainer = htmlElementGenerator('main','');
       var canvasContainer = htmlElementGenerator('div','','canvas-container');
@@ -82,7 +81,7 @@ function main() {
       document.body.appendChild(gameContainer);
       return gameContainer;
   }
-  function buildGameOverWindow() {
+  const buildGameOverWindow = () => {
     var gameOverContainer = htmlElementGenerator('div','','game-over');
     gameOverContainer.classList.add('game-over-hidden');
     gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
@@ -106,7 +105,7 @@ function main() {
     gameOverButtonsContainer.appendChild(returnMainButton);
     gameOverContainer.appendChild(gameOverButtonsContainer);
 
-    playAgainButton.addEventListener('click', function() {
+    playAgainButton.addEventListener('click', () => {
       var playerName = document.getElementById('player-name').value;
       var playerScore = game.getPoints();
       savePlayerScore(playerName,playerScore);
@@ -114,7 +113,7 @@ function main() {
       removeSplashScreen();
       game.restartGame();
     });
-    returnMainButton.addEventListener('click', function() {
+    returnMainButton.addEventListener('click', () => {
       var playerName = document.getElementById('player-name').value;
       var playerScore = game.getPoints();
       savePlayerScore(playerName,playerScore);
@@ -123,10 +122,10 @@ function main() {
     return gameOverContainer;
   }
 
-  function removeGameScreen() {
+  const removeGameScreen = () => {
       game.removeGameScreen();
   }
-  function savePlayerScore (name, score) {
+  const savePlayerScore = (name, score) => {
     if (name==='') name='Empty';
     name.toUpperCase();
     topScoresList.addNewScore({name:name,score:score});
@@ -135,25 +134,23 @@ function main() {
     
   // -- Setting the game state 
 
-  function startGame() {
+  const startGame= () => {
     removeSplashScreen();
     game = new Game();
     game.gameScreen = buildGameScreen();
     game.start();
 
-    game.passGameOverCallback(function() {
-      buildSplashScreen();
-    });
+    game.passGameOverCallback(() => buildSplashScreen());
   }
 
-  function showScores() {
+  const showScores = () => {
     removeSplashScreen();
     var scoresScreen = htmlElementGenerator('div','','score-screen');
     scoresScreen.appendChild(htmlElementGenerator('h1','Best Scores'));
     
     var listContainer = htmlElementGenerator('div','');
     listContainer.appendChild(htmlElementGenerator('ol',''));
-    topScoresList.getScores().forEach(function (element) {
+    topScoresList.getScores().forEach(element => {
       var liPlayer = htmlElementGenerator('li','','player-score');
       liPlayer.appendChild(htmlElementGenerator('span',element.name,'player-score player-name'));
       liPlayer.appendChild(htmlElementGenerator('span',element.score,'player-score'));
@@ -167,7 +164,7 @@ function main() {
     scoresScreen.appendChild(returnMainContainer);
     document.body.appendChild(scoresScreen);
 
-    returnButton.addEventListener('click', function() {
+    returnButton.addEventListener('click', () => {
       scoresScreen.remove();
       
       buildSplashScreen();

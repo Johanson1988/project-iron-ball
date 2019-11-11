@@ -25,12 +25,12 @@ class Game {
       y: 0,
       speed: 17,
 
-      move: function(canvas) {
+      move: (canvas) => {
         this.y += this.speed;
         this.y %= canvas.height;
       },
 
-      draw: function(canvas,ctx) {
+      draw: (canvas,ctx) => {
         ctx.drawImage(this.img, 0, this.y);
         if (this.speed < 0) {
           ctx.drawImage(this.img, 0, this.y + canvas.height,canvas.width,canvas.height);

@@ -59,7 +59,7 @@ class Ball {
     
     handleWallCollisions (platformX, platformY, platformSize,platformDirection,autoPilot) {
         var screenRightBorder = this.canvas.width;
-        function pointInCircle(x, y, cx, cy, radius) {
+        const pointInCircle = (x, y, cx, cy, radius) => {
             //x,y points to check
             //cx, cy points from the circle
             var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
