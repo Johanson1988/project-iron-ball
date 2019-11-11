@@ -9,7 +9,7 @@ class Scores {
     }
     
     sortScores() {
-        this.topScores.sort(function (a,b) {
+        this.topScores.sort((a,b) => {
             if (a.score > b.score) return -1;
             else if (a.score < b.score) return 1;
             else return 0;
@@ -18,7 +18,7 @@ class Scores {
     
     getScores () {
     
-        return this.topScores.filter(function(element,index) {
+        return this.topScores.filter((element,index) => {
             if (index < 9) return true;
         });
     }

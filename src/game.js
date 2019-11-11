@@ -74,7 +74,7 @@ class Game {
   this.lastBrickY = this.generateBricks(this.totalBricks);
     
   // Add event listener for moving the player
-  this.handleKeyDown = function(event)  {
+  this.handleKeyDown = event => {
     if (event.key === 'ArrowLeft') {
       this.platform.setDirection('left');  
     }else if (event.key === 'ArrowRight') {
@@ -100,7 +100,7 @@ class Game {
 
   startLoop () {
 
-  var loop = function() {
+  var loop = () => {
     if (this.pause === false) {
       this.ball.fall();
       var time = document.querySelector('.time .value');
@@ -135,7 +135,7 @@ class Game {
           
           if ((this.ball.y-this.ball.radius) <= (this.lastBrickY + this.ball.radius*3)) {
             
-            this.bricksArray.forEach(function (brick,index) {
+            this.bricksArray.forEach((brick,index) => {
               this.handleBrickCollisions(this.ball,brick,index);
               }.bind(this));
           }
@@ -147,7 +147,7 @@ class Game {
         this.backgroundImage.draw(this.canvas,this.ctx);
         this.platform.draw();
         this.ball.draw();
-        this.bricksArray.forEach(function(brick){
+        this.bricksArray.forEach((brick) => {
           brick.draw();
         });
         if (this.ball.getBallIsLaunched()) {
