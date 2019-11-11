@@ -1,40 +1,42 @@
 'use strict';
 
-function Ball (canvas,x,y,speedX,speedY) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.x = x; //For the first ball should platform.x + 45, platform.y;
-    this.y = y;
-    this.radius = 10;
-    this.speedX = speedX;
-    this.speedY = speedY;
-    this.color = '#F6D5D5';
-    this.launched = false;
-    this.fallen = false;
-    this.image = new Image();
-    this.wallAudio = new Audio('./audio/wall-sound.wav');
-    this.prevY = null;
-    this.prevYprevY = null;
+class Ball {
+    constructor(canvas,x,y,speedX,speedY) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.x = x; //For the first ball should platform.x + 45, platform.y;
+        this.y = y;
+        this.radius = 10;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.color = '#F6D5D5';
+        this.launched = false;
+        this.fallen = false;
+        this.image = new Image();
+        this.wallAudio = new Audio('./audio/wall-sound.wav');
+        this.prevY = null;
+        this.prevYprevY = null;
+    }
+    setSpeeds (speedX, speedY) {
+        if (speedX) this.speedX = speedX;
+        if (speedY) this.speedY = speedY;
+    }
+    increaseSpeed (autoPilotSwitch) {
+        var incSpeedX = 0.003;
+        var incSpeedY = 0.003;
+        if (autoPilotSwitch) {
+            incSpeedX = 0.009;
+            incSpeedY = 0.009;
+        }
+        if ((this.speedX >0) && (Math.abs(this.speedX < 10))) this.speedX += incSpeedX;
+        else this.speedX += -1*incSpeedX;
+        if ((this.speedY >0)  && (Math.abs(this.speedY < 11))) this.speedY += incSpeedY;
+        else this.speedY += -1*incSpeedY;
+    }
     
-    //will add random to be launch to one direction or other
-}
-Ball.prototype.setSpeeds = function(speedX, speedY) {
-    if (speedX) this.speedX = speedX;
-    if (speedY) this.speedY = speedY;
 }
 
-Ball.prototype.increaseSpeed = function(autoPilotSwitch) {
-    var incSpeedX = 0.003;
-    var incSpeedY = 0.003;
-    if (autoPilotSwitch) {
-        incSpeedX = 0.009;
-        incSpeedY = 0.009;
-    }
-    if ((this.speedX >0) && (Math.abs(this.speedX < 10))) this.speedX += incSpeedX;
-    else this.speedX += -1*incSpeedX;
-    if ((this.speedY >0)  && (Math.abs(this.speedY < 11))) this.speedY += incSpeedY;
-    else this.speedY += -1*incSpeedY;
-}
+
 
 Ball.prototype.draw = function() {
     this.ctx.beginPath();
