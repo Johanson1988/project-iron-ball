@@ -1,7 +1,7 @@
 'use strict';
 const htmlElementGenerator = (elementTag,innerCode,elementClass,elementId) => {
     if (typeof elementTag === 'string' && elementTag.length >0) {
-        var element = document.createElement(elementTag);
+        const element = document.createElement(elementTag);
         if (typeof elementClass === 'string' && elementClass.length > 0) {
             element.setAttribute('class', elementClass);
         }
@@ -13,24 +13,24 @@ const htmlElementGenerator = (elementTag,innerCode,elementClass,elementId) => {
     }else console.log('Element tag not valid');
 }
 const random = (min,max) => {
-  var num = (Math.random()*(max-min)) + min;
+  const num = (Math.random()*(max-min)) + min;
   return num;
 }
 // Runs on initial start and contains calls all other functions that manage the game
 const main = () => {
-  var game; // instance of the Game
-  var splashScreen; // Start Screen
-  var topScoresList = new Scores();
+  let game; // instance of the Game
+  let splashScreen; // Start Screen
+  const topScoresList = new Scores();
   topScoresList.loadFromLocalStorage();
     
   // -- splash screen
 
   const buildSplashScreen = () => {
     splashScreen = htmlElementGenerator('main','','splash-screen-container');
-    var title = htmlElementGenerator('h1','IronBall');
-    var newGame = htmlElementGenerator('button','NEW GAME');
-    var topScores = htmlElementGenerator('button', 'TOP SCORES');
-    var buttonsContainer = htmlElementGenerator('div','','buttons-container');
+    const title = htmlElementGenerator('h1','IronBall');
+    const newGame = htmlElementGenerator('button','NEW GAME');
+    const topScores = htmlElementGenerator('button', 'TOP SCORES');
+    const buttonsContainer = htmlElementGenerator('div','','buttons-container');
     
     splashScreen.appendChild(title);
     buttonsContainer.appendChild(newGame);
@@ -54,21 +54,21 @@ const main = () => {
     
   const buildGameScreen = () => {
       
-      var gameContainer = htmlElementGenerator('main','');
-      var canvasContainer = htmlElementGenerator('div','','canvas-container');
-      var canvas = htmlElementGenerator('canvas');
+      const gameContainer = htmlElementGenerator('main','');
+      const canvasContainer = htmlElementGenerator('div','','canvas-container');
+      const canvas = htmlElementGenerator('canvas');
       canvasContainer.appendChild(canvas);
 
-      var gameInfoContainer = htmlElementGenerator('section','','game-info-container');
-      var lifeContainer = htmlElementGenerator('div', '','lives');
+      const gameInfoContainer = htmlElementGenerator('section','','game-info-container');
+      const lifeContainer = htmlElementGenerator('div', '','lives');
       lifeContainer.appendChild(htmlElementGenerator('span','Lives: ','label'));
       lifeContainer.appendChild(htmlElementGenerator('span','','value'));
       
-      var timeContainer = htmlElementGenerator('div','','time');
+      const timeContainer = htmlElementGenerator('div','','time');
       timeContainer.appendChild(htmlElementGenerator('span','','label'));
       timeContainer.appendChild(htmlElementGenerator('span','','value'));
 
-      var pointsContainer = htmlElementGenerator('div', '', 'points');
+      const pointsContainer = htmlElementGenerator('div', '', 'points');
       pointsContainer.appendChild(htmlElementGenerator('span','','label'));
       pointsContainer.appendChild(htmlElementGenerator('span','0','value'));
       gameInfoContainer.appendChild(lifeContainer);
@@ -82,40 +82,40 @@ const main = () => {
       return gameContainer;
   }
   const buildGameOverWindow = () => {
-    var gameOverContainer = htmlElementGenerator('div','','game-over');
+    const gameOverContainer = htmlElementGenerator('div','','game-over');
     gameOverContainer.classList.add('game-over-hidden');
     gameOverContainer.appendChild(htmlElementGenerator('h1','Game Over'));
 
-    var scoreContainer = htmlElementGenerator('div','','final-score');
+    const scoreContainer = htmlElementGenerator('div','','final-score');
     scoreContainer.appendChild(htmlElementGenerator('span','Your Score:', 'label'));
     scoreContainer.appendChild(htmlElementGenerator('span','','value'));
     gameOverContainer.appendChild(scoreContainer);
 
-    var nameForm = document.createElement('form');
+    const nameForm = document.createElement('form');
     nameForm.innerHTML = `<label for="name">Nickname</label>
     <input type='text' name='name' id='player-name'></input>
     `;
     gameOverContainer.appendChild(nameForm);
 
-    var gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
-    var playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
+    const gameOverButtonsContainer = htmlElementGenerator('div','','game-over-buttons-container');
+    const playAgainButton = htmlElementGenerator('button','Play Again','play-again-btn');
     gameOverButtonsContainer.appendChild(playAgainButton);
-    var returnMainButton = htmlElementGenerator('button','Return','return-main-btn');
+    const returnMainButton = htmlElementGenerator('button','Return','return-main-btn');
     
     gameOverButtonsContainer.appendChild(returnMainButton);
     gameOverContainer.appendChild(gameOverButtonsContainer);
 
     playAgainButton.addEventListener('click', () => {
-      var playerName = document.getElementById('player-name').value;
-      var playerScore = game.getPoints();
+      const playerName = document.getElementById('player-name').value;
+      const playerScore = game.getPoints();
       savePlayerScore(playerName,playerScore);
       gameOverContainer.setAttribute('class','game-over-hidden game-over');
       removeSplashScreen();
       game.restartGame();
     });
     returnMainButton.addEventListener('click', () => {
-      var playerName = document.getElementById('player-name').value;
-      var playerScore = game.getPoints();
+      const playerName = document.getElementById('player-name').value;
+      const playerScore = game.getPoints();
       savePlayerScore(playerName,playerScore);
       removeGameScreen();
     });
@@ -145,21 +145,21 @@ const main = () => {
 
   const showScores = () => {
     removeSplashScreen();
-    var scoresScreen = htmlElementGenerator('div','','score-screen');
+    const scoresScreen = htmlElementGenerator('div','','score-screen');
     scoresScreen.appendChild(htmlElementGenerator('h1','Best Scores'));
     
-    var listContainer = htmlElementGenerator('div','');
+    const listContainer = htmlElementGenerator('div','');
     listContainer.appendChild(htmlElementGenerator('ol',''));
     topScoresList.getScores().forEach(element => {
-      var liPlayer = htmlElementGenerator('li','','player-score');
+      const liPlayer = htmlElementGenerator('li','','player-score');
       liPlayer.appendChild(htmlElementGenerator('span',element.name,'player-score player-name'));
       liPlayer.appendChild(htmlElementGenerator('span',element.score,'player-score'));
       listContainer.appendChild(liPlayer);
     });
 
     scoresScreen.appendChild(listContainer);
-    var returnMainContainer = htmlElementGenerator('div','',);
-    var returnButton = htmlElementGenerator('button','Return to main screen','','return-main');
+    const returnMainContainer = htmlElementGenerator('div','',);
+    const returnButton = htmlElementGenerator('button','Return to main screen','','return-main');
     returnMainContainer.appendChild(returnButton);
     scoresScreen.appendChild(returnMainContainer);
     document.body.appendChild(scoresScreen);
