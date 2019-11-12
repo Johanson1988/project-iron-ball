@@ -213,20 +213,20 @@ class Game {
 
   handleBrickCollisions(ball,brick,index) {
   const brickTopLeft = {
-      x : brick.x,
-      y : brick.y
+      x : brick.getX(),
+      y : brick.getY()
   }
   const brickTopRight = {
-      x : brick.x+brick.width,
-      y : brick.y
+      x : brick.getX()+brick.getWidth(),
+      y : brick.getY()
   }
   const brickBottomLeft = {
-      x : brick.x,
-      y : brick.y+brick.height
+      x : brick.getX(),
+      y : brick.getY()+brick.getHeight()
   }
   const brickBottomRight = {
-      x : brick.x + brick.width,
-      y : brick.y + brick.height
+      x : brick.getX() + brick.getWidth(),
+      y : brick.getY() + brick.getHeight()
   }
   //touches bottom border of the brick
   if (ball.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,ball.x,ball.y,ball.radius)) {
@@ -262,6 +262,7 @@ class Game {
   }
   generateBricks (totalBricks) {
   //Create bricks
+  debugger;
   let totalWidth = random(30,80);
   const brickGap = 4
   let totalHeight = 80;
@@ -271,13 +272,12 @@ class Game {
       totalWidth = random(5,20);
       totalHeight += random(25,60);
     }
-    
     var brick = new Brick(this.canvas, totalWidth, totalHeight, width);
-    totalWidth += brickGap + brick.width;
+    totalWidth += brickGap + brick.getWidth();
     this.bricksArray.push(brick);
   }
   this.increaseTotalBricks();
-  return totalHeight + brick.height;
+  return totalHeight + brick.getHeight();
   }
   clearBricksArray () {
   this.bricksArray = [];
