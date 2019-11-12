@@ -1,6 +1,5 @@
 'use strict';
 //random size
-//encapsulation in progress, restore to previous commit if still does not work
 class Brick {
     constructor(pCanvas,pX,pY,pWidth) {
         let canvas = pCanvas;

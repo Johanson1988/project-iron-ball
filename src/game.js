@@ -87,7 +87,10 @@ class Game {
     }else if(event.keyCode === 80) {
       this.platform.activateAutoPilot(false);
     }else if (event.keyCode === 16) {
-      if (this.pause) this.pause = false;
+      if (this.pause)  {
+        this.pause = false;
+        this.chronometer.startClick();
+      }
       else this.pause = true;
     }
   };
@@ -154,8 +157,6 @@ class Game {
           this.ball.increaseSpeed(this.platform.autoPilotSwitch);
         }
       }else {
-        this.gameAudio.pause();
-        this.gameAudio.currentTime = 0;
         this.chronometer.stopClick();
         this.platform.removeLife();      
         if (this.platform.livesRemaining()) {
@@ -262,7 +263,6 @@ class Game {
   }
   generateBricks (totalBricks) {
   //Create bricks
-  debugger;
   let totalWidth = random(30,80);
   const brickGap = 4
   let totalHeight = 80;

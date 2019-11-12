@@ -1,31 +1,42 @@
 // Constructor
 class Chronometer {
     constructor() {
-        this.currentTime = 0;
-        this.intervalId = 0;
-        this.milliseconds =0;
-        this.intervalMillisecs = 0;
+        let currentTime = 0;
+        let intervalId = 0;
+        let milliseconds =0;
+
+        //getters
+        this.getCurrentTime = () => currentTime;
+        this.getIntervalId = () => intervalId;
+        this.getMilliseconds = () => milliseconds;
+
+        //setters
+        this.updateCurrentTime = (newCurrentTime) => currentTime = newCurrentTime;
+        this.updateIntervalId = (newIntervalID) => intervalId = newIntervalID;
+        this.updateMilliseconds = (newMilliseconds) => milliseconds = newMilliseconds;
+        
     }
+        
     startClick () {
-        this.intervalId = setInterval(() => {
-            this.milliseconds++;
-            if (this.milliseconds === 100) {
-                this.currentTime++;
-                this.milliseconds = 0;
+        this.updateIntervalId(setInterval(() => {
+            this.updateMilliseconds(this.getMilliseconds()+1);
+            if (this.getMilliseconds() === 100) {
+                this.updateCurrentTime(this.getCurrentTime()+1);
+                this.updateMilliseconds(0);
             }                
             this.setTime();
-        },10);
+        },10));
     };
     
     setMinutes () {
-        return this.twoDigitsNumber(parseInt(this.currentTime/60));
+        return this.twoDigitsNumber(parseInt(this.getCurrentTime()/60));
     };
     
     setSeconds () {
-        return this.twoDigitsNumber(parseInt(this.currentTime -this.setMinutes()*60));
+        return this.twoDigitsNumber(parseInt(this.getCurrentTime() -this.setMinutes()*60));
     };
     setMilliseconds () {
-        return this.twoDigitsNumber(parseInt(this.milliseconds));
+        return this.twoDigitsNumber(parseInt(this.getMilliseconds()));
     }
     
     twoDigitsNumber (num) {
@@ -37,11 +48,11 @@ class Chronometer {
     }
     
     stopClick () {
-        clearInterval(this.intervalId);
+        this.updateIntervalId(clearInterval(this.getIntervalId()));
     };
     
     resetClick () {
-        this.currentTime = 0;
-        this.milliseconds = 0;
+        this.updateCurrentTime(0);
+        this.updateMilliseconds(0);
     };
 }
