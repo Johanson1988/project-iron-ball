@@ -65,10 +65,12 @@ class Game {
   this.platform = new Platform(this.canvas, 5);
   this.ball = new Ball(
     this.canvas,
-    this.platform.x+this.platform.width/2,
-    this.platform.y-10, //se le resta el radio
+    this.platform.getX() + this.platform.getWidth()/2,
+    this.platform.getY() - 10, //se le resta el radio
     -3.5,
     -3.5);
+    console.log(this.ball);
+    console.log(this.platform.getX() + this.platform.getWidth()/2);
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
@@ -120,7 +122,7 @@ class Game {
           if (!this.platform.autoPilotSwitch) {
             this.ball.launchBall(false);
             this.chronometer.stopClick();
-            this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,this.platform.y-10);
+            this.ball.returnToInitialPosition(this.platform.getX()+this.platform.getWidth()/2,this.platform.getY()-10);
           }
           
         }
@@ -130,8 +132,8 @@ class Game {
           }
           this.backgroundImage.move(this.canvas);
           this.gameAudio.play();
-          this.ball.checkOutside(this.platform.x,this.platform.width);
-          this.ball.handleWallCollisions(this.platform.x, this.platform.y,this.platform.width,this.platform.direction,this.platform.autoPilotSwitch);
+          this.ball.checkOutside(this.platform.getX(),this.platform.getWidth());
+          this.ball.handleWallCollisions(this.platform.getX(), this.platform.getY(),this.platform.getWidth(),this.platform.getDirection(),this.platform.getAutoPilot());
           
           
           //avoid checking brick collisions if the ball isn't in the area to save CPU
@@ -144,7 +146,7 @@ class Game {
           }
           this.platform.updatePoints();
         }
-        this.ball.updatePosition(this.platform.x+this.platform.width/2);
+        this.ball.updatePosition(this.platform.getX()+this.platform.getWidth()/2);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         this.backgroundImage.draw(this.canvas,this.ctx);
@@ -161,8 +163,8 @@ class Game {
         this.platform.removeLife();      
         if (this.platform.livesRemaining()) {
           this.platform.returnToInitialPosition();
-          this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
-            this.platform.y-10);
+          this.ball.returnToInitialPosition(this.platform.getX()+this.platform.getWidth()/2,
+            this.platform.getY()-10);
         }else this.setGameOver();
       }
       this.platform.updateLives();
@@ -198,13 +200,13 @@ class Game {
   };
 
   restartGame () {
-  this.platform.lives = 1;    //Add set life
+  this.platform.setLives(1);    //Add set life
   this.gameIsOver = false;
   this.platform.points = 0;         //Add set points
   this.chronometer.resetClick();
   this.platform.returnToInitialPosition();
-  this.ball.returnToInitialPosition(this.platform.x+this.platform.width/2,
-    this.platform.y-10);
+  this.ball.returnToInitialPosition(this.platform.getX()+this.platform.getWidth()/2,
+    this.platform.getY()-10);
   this.ball.setSpeeds(2.5,-2.5);
   this.totalBricks = 30;
   this.clearBricksArray();
@@ -233,14 +235,14 @@ class Game {
   if (ball.ballTouchesLine(brickBottomLeft.x,brickBottomLeft.y,brickBottomRight.x,brickBottomRight.y,ball.x,ball.y,ball.radius)) {
       ball.bounce('bottom');
       this.bricksArray.splice(index,1);
-      this.platform.addPoints(100);
+      this.platform.setPoints(100);
       this.brickAudio.currentTime = 0;
       this.brickAudio.play();
   //hits right border
   }else if (ball.ballTouchesLine(brickTopRight.x,brickTopRight.y,brickBottomRight.x, brickBottomRight.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('right');
     this.bricksArray.splice(index,1);
-    this.platform.addPoints(100);
+    this.platform.setPoints(100);
     this.brickAudio.currentTime = 0;
     this.brickAudio.play();
   }
@@ -248,7 +250,7 @@ class Game {
   else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickTopRight.x,brickTopRight.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('top');
     this.bricksArray.splice(index,1);
-    this.platform.addPoints(100);
+    this.platform.setPoints(100);
     this.brickAudio.currentTime = 0;
     this.brickAudio.play();
   }
@@ -256,7 +258,7 @@ class Game {
   else if (ball.ballTouchesLine(brickTopLeft.x,brickTopLeft.y,brickBottomLeft.x,brickBottomLeft.y,ball.x,ball.y,ball.radius)) {
     ball.bounce('left');
     this.bricksArray.splice(index,1);
-    this.platform.addPoints(100);
+    this.platform.setPoints(100);
     this.brickAudio.currentTime = 0;
     this.brickAudio.play();
   }

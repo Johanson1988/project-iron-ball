@@ -1,94 +1,110 @@
 'use strict';
 class Platform  {
-  constructor(canvas, lives) {
-    this.canvas = canvas;
-    this.ctx = this.canvas.getContext('2d');
-    this.x = 455; //half of totalCanvasSize - half of platform size;
-    this.y = 500; //420 final value
-    this.speed = 30;
-    this.lives = 1;
-    this.points = 0;
-    this.width = 150;
-    this.height = 30;
-    this.direction = 0;
-    this.sectionSize = 30; //size divided by 3 so 3 sections
-    this.color = 'red';
-    this.rocketImg = new Image();
-    this.autoPilotSwitch = false;
+  constructor(newCanvas, newLives) {
+    let canvas = newCanvas;
+    let ctx = canvas.getContext('2d');
+    let x = 455; //half of totalCanvasSize - half of platform size;
+    let y = 500; //420 final value
+    let speed = 30;
+    let lives = newLives;
+    let points = 0;
+    let width = 150;
+    let height = 30;
+    let direction = 0;
+    let rocketImg = new Image();
+    let autoPilotSwitch = false;
+
+    //getters
+    this.getCanvas = () => canvas;
+    this.getCtx = () => ctx;
+    this.getX = () => x;
+    this.getY = () => y;
+    this.getSpeed = () => speed;
+    this.getLives = () => lives;
+    this.getPoints = () => points;
+    this.getWidth = () => width;
+    this.getHeight = () => height;
+    this.getDirection = () => direction;
+    this.getRocketImg = () => rocketImg;
+    this.getAutoPilot = () => autoPilotSwitch;
+
+    //setters
+    this.setDirection = (newDirection) => {
+      // +1 right  -1 left
+      if (newDirection === 'left') direction = -1;
+      else if (newDirection === 'right') direction = 1;
+      this.move();
+    };
+    
+    this.setX = (newX) => x = newX;
+    this.setY = (newY) => y = newY;
+    this.setSpeed = (newSpeed) => speed = newSpeed;
+    this.setLives = (newLives) => lives += newLives;
+    this.setPoints =  (newPoints) => points += newPoints;
+    this.setAutoPilot =  (boolean) => autoPilotSwitch = boolean;
+    this.setRocketImgRoute = (route) => rocketImg.src=route;
+
   }
-  setDirection (direction) {
-    // +1 right  -1 left
-    if (direction === 'left') this.direction = -1;
-    else if (direction === 'right') this.direction = 1;
-    this.move();
-  };
+
   move () {
-    this.x += this.direction * this.speed;
+    this.setX(this.getX() + this.getDirection() * this.getSpeed());
   };
 
   handleScreenCollision () {
   const screenLeftBorder = 0;
-  const screenRightBorder = this.canvas.width;
+  const screenRightBorder = this.getCanvas().width;
 
 
-  if ((this.x + this.direction * this.speed) > screenRightBorder-this.width){
-    this.x = screenRightBorder - this.width;
+  if ((this.getX() + this.getDirection() * this.getSpeed()) > screenRightBorder-this.getWidth()){
+    this.setX(screenRightBorder - this.getWidth());
   }
+  
   //if it reaches the border it will not escape the screen
-  else if (this.x < screenLeftBorder) this.x = 0;
+  else if (this.getX() < screenLeftBorder) this.setX(0);
   };
 
   // removeLife()
 
   removeLife () {
-      this.lives -= 1;
+      this.setLives(-1);
   };
   updateLives () {
-    document.querySelector('.lives .value').innerHTML = this.lives;
+    document.querySelector('.lives .value').innerHTML = this.getLives();
   }
 
   draw () {
-    if (this.direction === 1) this.rocketImg.src = ('./images/rocketL.png');
-    else this.rocketImg.src = ('./images/rocketR.png');
+    if (this.getDirection() === 1) this.setRocketImgRoute('./images/rocketL.png');
+    else this.setRocketImgRoute('./images/rocketR.png');
     // fillRect(x, y, width, height)
-    this.ctx.drawImage(this.rocketImg,
-      this.x,
-      this.y,
-      this.width,
-      this.height
+    this.getCtx().drawImage(this.getRocketImg(),
+      this.getX(),
+      this.getY(),
+      this.getWidth(),
+      this.getHeight()
     );
     
   };
   returnToInitialPosition () {
     //half of totalCanvasSize - half of platform size;
-    this.x= this.canvas.width/2 - this.width/2;
+    this.setX(this.getCanvas().width/2 - this.getWidth()/2);
   }
-  addPoints  (points) {
-    this.points += points;
-  }
+
   updatePoints () {
     const points = document.querySelector('.points .value');
-    points.innerHTML = this.points;
+    points.innerHTML = this.getPoints();
   }
-  getPoints () {
-    return this.points;
-  }
+
   livesRemaining  () {
-    if (this.lives > 0) return true;
+    if (this.getLives() > 0) return true;
     else return false;
   }
   autoPilot (ballX) {
     //const prevX = this.x;
-    this.x = ballX-this.width/2;
+    this.getX() = ballX-this.getWidth()/2;
     //if (prevX - this.X < 0) this.setDirection('left');
     //else this.setDirection('right');
     
   }
-  getDirection  () {
-    return this.direction;
-  }
-  activateAutoPilot  (boolean) {
-    console.log(boolean);
-    this.autoPilotSwitch = boolean;
-  }
+  
+
 }
