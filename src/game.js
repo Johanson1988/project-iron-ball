@@ -97,7 +97,14 @@ class Game {
     }
   };
 
+  this.handleClick = event => {
+    console.log(event.x,event.y);
+    if (event.x > this.platform.getX() && event.x < this.platform.getX() + this.platform.getWidth() && 
+    event.y > this.platform.getY() && event.y < this.platform.getY() + this.platform.getHeight()) console.log('IN');
+  }
+
   document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
+  document.body.addEventListener('click', this.handleClick.bind(this));
 
   // Start the canvas requestAnimationFrame loop
   this.startLoop();
