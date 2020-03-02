@@ -129,10 +129,10 @@ const main = () => {
   const removeGameScreen = () => {
       game.removeGameScreen();
   }
-  const savePlayerScore = (name, score,time) => {
+  const savePlayerScore = (nickname, points,time) => {
     if (name==='') name='Empty';
     name.toUpperCase();
-    topScoresList.addNewScore({name,score,time});
+    topScoresList.addNewScore({nickname,points,time});
     //topScoresList.saveToLocalStorage();
   }
     
