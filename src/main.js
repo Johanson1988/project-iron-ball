@@ -108,7 +108,8 @@ const main = () => {
     playAgainButton.addEventListener('click', () => {
       const playerName = document.getElementById('player-name').value;
       const playerScore = game.getPoints();
-      savePlayerScore(playerName,playerScore);
+      const playerTime = game.chronometer.setTime();
+      savePlayerScore(playerName, playerScore, playerTime);
       gameOverContainer.setAttribute('class','game-over-hidden game-over');
       removeSplashScreen();
       game.restartGame();
@@ -116,7 +117,10 @@ const main = () => {
     returnMainButton.addEventListener('click', () => {
       const playerName = document.getElementById('player-name').value;
       const playerScore = game.getPoints();
-      savePlayerScore(playerName,playerScore);
+      const playerTime = game.chronometer.setTime();
+      //console.log(`${playerTime.getHours()}:${playerTime.getMinutes()}:${playerTime.getSeconds()}`);
+      console.log(playerTime);
+      savePlayerScore(playerName,playerScore, playerTime);
       removeGameScreen();
     });
     return gameOverContainer;
@@ -125,11 +129,11 @@ const main = () => {
   const removeGameScreen = () => {
       game.removeGameScreen();
   }
-  const savePlayerScore = (name, score) => {
+  const savePlayerScore = (name, score,time) => {
     if (name==='') name='Empty';
     name.toUpperCase();
-    topScoresList.addNewScore({name:name,score:score});
-    topScoresList.saveToLocalStorage();
+    topScoresList.addNewScore({name,score,time});
+    //topScoresList.saveToLocalStorage();
   }
     
   // -- Setting the game state 

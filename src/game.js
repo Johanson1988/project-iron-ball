@@ -62,7 +62,7 @@ class Game {
   this.chronometer = new Chronometer();
 
   // Create a new platform and ball for the current game
-  this.platform = new Platform(this.canvas, 5);
+  this.platform = new Platform(this.canvas, 1);
   this.ball = new Ball(
     this.canvas,
     this.platform.getX() + this.platform.getWidth()/2,
@@ -286,16 +286,16 @@ class Game {
     this.bricksArray.push(brick);
   }
   this.increaseTotalBricks();
-  return totalHeight + brick.getHeight();
+    return totalHeight + brick.getHeight();
   }
   clearBricksArray () {
-  this.bricksArray = [];
+    this.bricksArray = [];
   }
   increaseTotalBricks() {
-  this.totalBricks +=10;
+    this.totalBricks +=10;
   }
   getPoints () {
-  return this.platform.getPoints();
+    return this.platform.getPoints();
   }
   
   

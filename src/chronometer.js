@@ -14,6 +14,9 @@ class Chronometer {
         this.updateCurrentTime = (newCurrentTime) => currentTime = newCurrentTime;
         this.updateIntervalId = (newIntervalID) => intervalId = newIntervalID;
         this.updateMilliseconds = (newMilliseconds) => milliseconds = newMilliseconds;
+        this.setTime = () => {
+            return `${this.setMinutes()}:${this.setSeconds()}:${this.setMilliseconds()}`;
+       };
         
     }
         
@@ -43,9 +46,7 @@ class Chronometer {
         return ('0' + num).slice(-2);
     };
     
-    setTime() {
-         return `${this.setMinutes()}:${this.setSeconds()}:${this.setMilliseconds()}`;
-    }
+
     
     stopClick () {
         this.updateIntervalId(clearInterval(this.getIntervalId()));

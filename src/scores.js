@@ -4,8 +4,25 @@ class Scores {
         this.topScores = []; //array of objets {name, score}
     }
     addNewScore (nameScoreObj) {
-        this.topScores.push(nameScoreObj);
-        this.sortScores();
+        //this.topScores.push(nameScoreObj);
+        //this.sortScores();
+        console.log(nameScoreObj);
+        const ip = "http://127.0.0.1";
+        const port = 3000;
+        fetch(`${ip}:${port}`, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(nameScoreObj),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
     
     sortScores() {
