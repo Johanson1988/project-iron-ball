@@ -1,16 +1,16 @@
 'use strict';
 const htmlElementGenerator = (elementTag,innerCode,elementClass,elementId) => {
-    if (typeof elementTag === 'string' && elementTag.length >0) {
-        const element = document.createElement(elementTag);
-        if (typeof elementClass === 'string' && elementClass.length > 0) {
-            element.setAttribute('class', elementClass);
-        }
-        if (typeof elementId === 'string' && elementId.length > 0) {
-            element.setAttribute('id',elementId);
-        }
-        element.innerHTML = innerCode;
-        return element;
-    }else console.log('Element tag not valid');
+  if (typeof elementTag === 'string' && elementTag.length >0) {
+      const element = document.createElement(elementTag);
+      if (typeof elementClass === 'string' && elementClass.length > 0) {
+          element.setAttribute('class', elementClass);
+      }
+      if (typeof elementId === 'string' && elementId.length > 0) {
+          element.setAttribute('id',elementId);
+      }
+      element.innerHTML = innerCode;
+      return element;
+  }else console.log('Element tag not valid');
 }
 const random = (min,max) => {
   const num = (Math.random()*(max-min)) + min;
@@ -129,10 +129,10 @@ const main = () => {
   const removeGameScreen = () => {
       game.removeGameScreen();
   }
-  const savePlayerScore = (nickname, points,time) => {
+  const savePlayerScore = async(nickname, points,time) => {
     if (name==='') name='Empty';
     name.toUpperCase();
-    topScoresList.addNewScore({nickname,points,time});
+    await topScoresList.addNewScore({nickname,points,time});
     //topScoresList.saveToLocalStorage();
   }
     
@@ -147,17 +147,19 @@ const main = () => {
     game.passGameOverCallback(() => buildSplashScreen());
   }
 
-  const showScores = () => {
+  const showScores = async() => {
     removeSplashScreen();
     const scoresScreen = htmlElementGenerator('div','','score-screen');
     scoresScreen.appendChild(htmlElementGenerator('h1','Best Scores'));
     
     const listContainer = htmlElementGenerator('div','');
     listContainer.appendChild(htmlElementGenerator('ol',''));
-    topScoresList.getScores().forEach(element => {
+    
+    const listaPlayers = await topScoresList.getScores();
+    listaPlayers.forEach(element => {
       const liPlayer = htmlElementGenerator('li','','player-score');
-      liPlayer.appendChild(htmlElementGenerator('span',element.name,'player-score player-name'));
-      liPlayer.appendChild(htmlElementGenerator('span',element.score,'player-score'));
+      liPlayer.appendChild(htmlElementGenerator('span',element.nickname,'player-score player-name'));
+      liPlayer.appendChild(htmlElementGenerator('span',element.points,'player-score'));
       listContainer.appendChild(liPlayer);
     });
 

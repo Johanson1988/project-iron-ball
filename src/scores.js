@@ -6,10 +6,9 @@ class Scores {
     addNewScore (nameScoreObj) {
         //this.topScores.push(nameScoreObj);
         //this.sortScores();
-        console.log(nameScoreObj);
         const ip = "http://127.0.0.1";
         const port = 3000;
-        fetch(`${ip}:${port}`, {
+        return fetch(`${ip}:${port}`, {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
@@ -35,8 +34,26 @@ class Scores {
     
     getScores () {
     
-        return this.topScores.filter((element,index) => {
+       /* return this.topScores.filter((element,index) => {
             if (index < 9) return true;
+        });*/
+
+        const ip = "http://127.0.0.1";
+        const port = 3000;
+        return fetch(`${ip}:${port}`, {
+            method: 'GET', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+            console.log(Array.isArray(data));
+            return data;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
         });
     }
     
@@ -50,5 +67,5 @@ class Scores {
             const retrieved = localStorage.getItem('score');
             this.topScores = JSON.parse(retrieved);
         }    
-    }  
+    }
 };
