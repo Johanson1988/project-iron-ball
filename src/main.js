@@ -118,8 +118,6 @@ const main = () => {
       const playerName = document.getElementById('player-name').value;
       const playerScore = game.getPoints();
       const playerTime = game.chronometer.setTime();
-      //console.log(`${playerTime.getHours()}:${playerTime.getMinutes()}:${playerTime.getSeconds()}`);
-      console.log(playerTime);
       savePlayerScore(playerName,playerScore, playerTime);
       removeGameScreen();
     });

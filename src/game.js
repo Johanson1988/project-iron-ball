@@ -69,8 +69,6 @@ class Game {
     this.platform.getY() - 10, //se le resta el radio
     -3.5,
     -3.5);
-    console.log(this.ball);
-    console.log(this.platform.getX() + this.platform.getWidth()/2);
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
@@ -98,7 +96,6 @@ class Game {
   };
 
   this.handleClick = event => {
-    console.log(event.x,event.y);
     if (event.x > this.platform.getX() && event.x < this.platform.getX() + this.platform.getWidth() && 
     event.y > this.platform.getY() && event.y < this.platform.getY() + this.platform.getHeight()) console.log('IN');
   }
