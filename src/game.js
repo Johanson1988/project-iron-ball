@@ -72,6 +72,7 @@ class Game {
 
   //Generate bricks
   this.lastBrickY = this.generateBricks(this.totalBricks);
+  
     
   // Add event listener for moving the player
   this.handleKeyDown = event => {
@@ -96,8 +97,12 @@ class Game {
   };
 
   this.handleClick = event => {
-    if (event.x > this.platform.getX() && event.x < this.platform.getX() + this.platform.getWidth() && 
-    event.y > this.platform.getY() && event.y < this.platform.getY() + this.platform.getHeight()) console.log('IN');
+    if (event.x >= this.platform.getX() && event.x <= this.platform.getX() + this.platform.getWidth() && 
+    event.y >= this.platform.getY() && event.y <= this.platform.getY() + this.platform.getHeight()) {
+      console.log('IN');
+      this.platform.setIsHovered(true);
+      console.log(this.platform.getIsHovered());
+    }
   }
 
   document.body.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -180,7 +185,7 @@ class Game {
     };
 
   window.requestAnimationFrame(loop);
-  } ;
+  };
 
 
   setGameOver () {

@@ -13,6 +13,7 @@ class Platform  {
     let direction = 0;
     let rocketImg = new Image();
     let autoPilotSwitch = false;
+    let isHovered = false;
 
     //getters
     this.getCanvas = () => canvas;
@@ -27,6 +28,7 @@ class Platform  {
     this.getDirection = () => direction;
     this.getRocketImg = () => rocketImg;
     this.getAutoPilot = () => autoPilotSwitch;
+    this.getIsHovered = () => isHovered;
 
     //setters
     this.setDirection = (newDirection) => {
@@ -43,7 +45,7 @@ class Platform  {
     this.setPoints =  (newPoints) => points += newPoints;
     this.setAutoPilot =  (boolean) => autoPilotSwitch = boolean;
     this.setRocketImgRoute = (route) => rocketImg.src=route;
-
+    this.setIsHovered = newStatus => isHovered = newStatus;
   }
 
   move () {
